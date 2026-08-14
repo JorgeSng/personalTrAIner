@@ -108,9 +108,16 @@
 
 ### Follow-up
 
-1. Spec `001-project-scaffold.md` → bootstrap + Jest + Supabase clients.
-2. Spec `002-auth-and-onboarding.md` → login + perfil inicial.
-3. Spec `003-workout-plan-engine.md` → generación e iteración.
+Índice de specs en [`docs/specs/README.md`](../specs/README.md) (acordado 2026-08-14):
+
+1. Spec `001-project-scaffold.md` → bootstrap + Jest + Supabase clients. **implemented**
+2. Spec `002-auth.md` → login/logout, sesión, rutas protegidas. **siguiente**
+3. Spec `003-onboarding-profile.md` → perfil de entrenamiento persistido.
+4. Spec `004-workout-plan-engine.md` → generación de plan + LoadMuscle.
+5. Spec `005-session-log.md` → registro peso × reps.
+6. Spec `006-weekly-iteration.md` → ajuste semanal del plan.
+
+Deploy Vercel cuando 002+003 funcionen en local.
 
 ## Aprobación
 

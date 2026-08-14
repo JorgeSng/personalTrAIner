@@ -53,6 +53,7 @@ Idea → Spec (draft) → Revisión usuario → Spec (approved) → Implementaci
 3. Implementa **solo** lo que dice la spec activa (`implement-from-spec`).
 4. Al terminar, actualiza la spec a `implemented` y anota desviaciones (`update-spec`).
 5. Cambios de alcance → actualizar spec **antes** de seguir codeando.
+6. Orden MVP: índice en [`docs/specs/README.md`](./docs/specs/README.md). No adelantar specs futuras.
 
 ## Fuente de verdad
 

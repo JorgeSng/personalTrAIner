@@ -8,7 +8,24 @@ Cada feature o cambio significativo vive aquí **antes** del código.
 NNN-nombre-corto-en-kebab-case.md
 ```
 
-Ejemplos: `001-project-scaffold.md`, `002-auth-onboarding.md`, `003-api-plan-generate.md`
+Ejemplos: `001-project-scaffold.md`, `002-auth.md`, `003-onboarding-profile.md`
+
+## Roadmap MVP
+
+Índice acordado (2026-08-14). **No redactar** specs futuras hasta llegar a esa spec. El archivo `NNN-*.md` se crea en `draft` con el skill `write-spec` al empezar esa tarea.
+
+| NNN | Nombre previsto | Alcance (una frase) | Depende de | Estado |
+|---|---|---|---|---|
+| 001 | [project-scaffold](./001-project-scaffold.md) | Next.js 16, Jest, stubs API, clientes Supabase/Gemini | ADR-001 | **implemented** |
+| 002 | auth | Login/logout, sesión, rutas protegidas (Supabase Auth) | 001 | pendiente (siguiente) |
+| 003 | onboarding-profile | Captura y persistencia del perfil de entrenamiento | 002 | pendiente |
+| 004 | workout-plan-engine | Generar plan con Gemini, guardar, enlaces LoadMuscle | 003 | pendiente |
+| 005 | session-log | Registrar peso × reps de una sesión | 004 | pendiente |
+| 006 | weekly-iteration | Ajustar el plan según logs y perfil | 005 | pendiente |
+
+Fuera de este índice hasta que 002+003 funcionen en local: deploy a Vercel (ver ADR-001).
+
+**Siguiente trabajo:** spec-002 (`002-auth.md`) — solo auth. No mezclar onboarding ni motor de plan.
 
 ## Tipos de spec
 
