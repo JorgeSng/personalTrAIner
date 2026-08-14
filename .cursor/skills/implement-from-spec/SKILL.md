@@ -26,7 +26,8 @@ description: Implementa código siguiendo una spec approved en docs/specs/. Usar
 - Desviación de la spec o del enfoque acordado → **consultar al usuario** antes de continuar; no sustituir por alternativas unilaterales.
 - Desviación documentada → actualizar spec o notas con motivo.
 - No añadir features no listadas en la spec.
-- No commit/push salvo petición explícita.
+- No `add`/`commit`/`push` ni otras operaciones git mutables sin OK explícito (`AGENTS.md`).
+- Decisiones de diseño no resueltas en la spec → preguntar; no elegir por cuenta propia.
 
 ## Salida al usuario
 

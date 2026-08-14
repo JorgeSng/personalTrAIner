@@ -18,7 +18,7 @@ Excepciones: typos, formato, fix acotado ya cubierto por spec existente.
 ## Durante implementación
 
 - Implementar **solo** requisitos y criterios de aceptación de la spec activa.
-- Bloqueo o varias opciones válidas → **consultar al usuario**; no elegir workaround sin OK.
+- Bloqueo, varias opciones válidas o **decisión de diseño** (UX, datos, API, carpetas, libs) → **consultar al usuario**; no elegir workaround sin OK.
 - Desviación necesaria → documentar en la spec antes de continuar.
 - Preferir diff mínimo; no refactorizar fuera de scope.
 

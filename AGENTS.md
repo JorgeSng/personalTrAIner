@@ -10,18 +10,37 @@ Actúa como **desarrollador + entrenador técnico**. Respeta el flujo SDD: **spe
 
 Artefactos del repo (código, specs, commits, comentarios) en **español o inglés técnico** según el archivo existente; mantén consistencia por carpeta.
 
-## Consultar al usuario antes de decidir (obligatorio)
+## Normas permanentes (todo agente)
 
-**No elijas por tu cuenta** alternativas de implementación, herramientas o workarounds. **Para y pregunta** cuando:
+Estas normas viven aquí y en `.cursor/rules/` (`alwaysApply`). **No hace falta** que el usuario las recuerde en cada chat.
 
-- La spec o ADR indica un camino (p. ej. `create-next-app`) y hay **obstáculos** o **opciones distintas** (scaffold manual, otra carpeta, otro CLI).
-- Haya **más de una forma válida** de hacer algo (estructura de carpetas, librería, patrón API).
-- Un comando falle o una herramienta esté bloqueada → presentar **opciones con pros/contras**, no ejecutar la alternativa sin OK.
-- Impliquen **dependencias nuevas**, cambio de stack, o desviación del alcance aprobado.
+### Git
+
+**Preguntar siempre** antes de cualquier operación que modifique índice, historial o remoto:
+
+- `git add`, `git commit`, `git push`, `git pull`
+- merge, rebase, reset, stash, cherry-pick, tag
+- crear, borrar o renombrar ramas
+
+**Sin preguntar** (solo diagnóstico): `git status`, `git diff`, `git log`, `git show`.
+
+Al terminar una tarea: **proponer** commit/push y **esperar OK**. Nunca asumir que hay que versionar.
+
+### Decisiones de diseño
+
+**Para y pregunta** antes de elegir (no improvisar). Incluye, entre otras:
+
+- UX y flujos (pantallas, pasos de onboarding, copy)
+- Modelo de datos y esquema (tablas, campos, RLS)
+- Contratos API (rutas, payloads, status codes)
+- Estructura de carpetas, librerías, patrones
+- Auth (proveedor, sesión, redirects)
+- Dependencias nuevas, cambio de stack, desviación de spec/ADR
+- Bloqueo o varias formas válidas de cumplir un requisito
 
 Formato: problema breve → 2–3 opciones → recomendación → «¿Cuál prefieres?»
 
-Solo actuar sin preguntar en lo **trivial y reversible** (typo, import, ajuste acordado en la spec) o si el usuario ya eligió explícitamente en el chat.
+Solo actuar sin preguntar en lo **trivial y reversible** (typo, import, ajuste ya acordado en la spec) o si el usuario eligió explícitamente en el chat.
 
 ## Flujo SDD (obligatorio)
 
@@ -74,9 +93,10 @@ Checklists y convenciones de código en `.cursor/rules/`:
 
 ## Protocolo de carga de contexto
 
-1. Leer este `AGENTS.md`.
+1. Leer este `AGENTS.md` (incluye normas permanentes de git y diseño).
 2. Si hay spec referenciada en el chat, leerla completa.
 3. Cargar reglas/skills solo si aplican a la tarea.
+4. No pedir al usuario que reitere normas ya documentadas aquí.
 
 ## Comandos útiles
 
@@ -86,9 +106,9 @@ Checklists y convenciones de código en `.cursor/rules/`:
 
 ## Git y versionado
 
-**Preguntar siempre al usuario** antes de operaciones git que modifiquen historial, índice o remoto (`add`, `commit`, `push`, `pull`, merge, rebase, ramas, etc.). Solo lectura (`status`, `diff`, `log`) para diagnóstico no requiere permiso.
+Detalle operativo en **Normas permanentes** (arriba) y regla `dev-workflow`.
 
-Al **crear archivos o carpetas**, valorar si deben subirse al repo; si son caché, generados, secretos o deps locales → actualizar `.gitignore` (regla `dev-workflow`). Ante duda, preguntar.
+Al **crear archivos o carpetas**, valorar si deben subirse al repo; si son caché, generados, secretos o deps locales → actualizar `.gitignore`. Ante duda, preguntar.
 
 ## Lo que no hacer
 

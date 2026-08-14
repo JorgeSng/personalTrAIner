@@ -22,9 +22,11 @@ description: Redacta o actualiza specs SDD en docs/specs/ a partir de una idea o
 ## Reglas
 
 - No implementar código en la misma sesión salvo que el usuario apruebe la spec y pida implementar.
+- **Decisiones de diseño** (UX, modelo de datos, API, carpetas, libs, auth): no elegir en silencio. Listarlas como abiertas, recomendar y esperar OK.
 - Stack técnico: si no hay ADR/spec previa, marcar como decisión pendiente en la spec.
 - Perfil de usuario (material, lesiones, frecuencia): definir en spec de onboarding/datos, no hardcodear en AGENTS.md.
 - Dominio fitness: incluir LoadMuscle si hay ejercicios; el plan debe consumir perfil persistido.
+- Git: no `add`/`commit`/`push` sin OK explícito (`AGENTS.md`).
 
 ## Salida al usuario
 

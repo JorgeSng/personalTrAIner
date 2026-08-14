@@ -5,9 +5,13 @@ alwaysApply: true
 
 # Dev workflow
 
-## Consultar antes de decidir
+## Consultar antes de decidir (diseño)
 
-Si surge un bloqueo o hay varias formas válidas de cumplir la spec → **no improvisar**. Explicar opciones y esperar respuesta del usuario (ver `AGENTS.md`).
+**Preguntar siempre** antes de elegir UX, modelo de datos, contratos API, estructura de carpetas, librerías, auth, deps nuevas o cualquier desviación de spec/ADR.
+
+Si hay bloqueo o **más de una forma válida** → no improvisar. Formato: problema → 2–3 opciones → recomendación → esperar OK (ver `AGENTS.md` → Normas permanentes).
+
+Estas normas aplican en **cualquier chat**; el usuario no tiene que repetirlas.
 
 ## Antes de modificar código
 
