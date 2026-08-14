@@ -1,0 +1,19 @@
+---
+description: Formato y calidad de specs en docs/specs
+globs: docs/specs/**/*.md
+alwaysApply: false
+---
+
+# Formato de specs
+
+Al crear o editar specs en `docs/specs/`:
+
+- Usar plantilla `_template.md`; nombre `NNN-kebab-case.md` (NNN = 001, 002…).
+- Tabla inicial: **Estado**, **Tipo** (`feature` | `api` | `infra`), fecha, dependencias.
+- **Tipo api** → completar Entradas y Salidas.
+- **Tipo feature** → completar UX / flujos y Modelo de datos si aplica.
+- **Tipo infra** → Comportamiento esperado + Fuera de alcance; Entradas/Salidas pueden ser N/A.
+- Criterios de aceptación como checklist `- [ ]` verificable (incluir tests Jest).
+- **Fuera de alcance** explícito; no borrar specs — marcar `superseded` y enlazar la nueva.
+
+`_template.md` es la plantilla acordada — no modificar salvo acuerdo explícito con el usuario.
