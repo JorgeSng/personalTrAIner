@@ -17,7 +17,7 @@ Ejemplos: `001-project-scaffold.md`, `002-auth.md`, `003-onboarding-profile.md`
 | NNN | Nombre previsto | Alcance (una frase) | Depende de | Estado |
 |---|---|---|---|---|
 | 001 | [project-scaffold](./001-project-scaffold.md) | Next.js 16, Jest, stubs API, clientes Supabase/Gemini | ADR-001 | **implemented** |
-| 002 | [auth](./002-auth.md) | Login/logout, sesión, rutas protegidas (Supabase Auth) | 001 | **approved** |
+| 002 | [auth](./002-auth.md) | Login/logout, sesión, rutas protegidas (Supabase Auth) | 001 | **implemented** |
 | 003 | onboarding-profile | Captura y persistencia del perfil de entrenamiento | 002 | pendiente |
 | 004 | workout-plan-engine | Generar plan con Gemini, guardar, enlaces LoadMuscle | 003 | pendiente |
 | 005 | session-log | Registrar peso × reps de una sesión | 004 | pendiente |
@@ -25,7 +25,7 @@ Ejemplos: `001-project-scaffold.md`, `002-auth.md`, `003-onboarding-profile.md`
 
 Fuera de este índice hasta que 002+003 funcionen en local: deploy a Vercel (ver ADR-001).
 
-**Siguiente trabajo:** implementar spec-002 (`002-auth.md`) en rama `feat/spec-002-auth` — solo auth. No mezclar onboarding ni motor de plan.
+**Siguiente trabajo:** spec-003 (`003-onboarding-profile.md`) — perfil de entrenamiento. No adelantar el motor de plan.
 
 ## Tipos de spec
 

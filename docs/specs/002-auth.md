@@ -2,7 +2,7 @@
 
 | Campo | Valor |
 |---|---|
-| **Estado** | approved |
+| **Estado** | implemented |
 | **Tipo** | feature |
 | **Fecha** | 2026-08-14 |
 | **Supersede** | — |
@@ -25,7 +25,7 @@ Medible: con Supabase configurado, un usuario válido entra, recarga y sigue aut
 7. **`GET /api/health`** sigue **público**.
 8. **`POST /api/plan/generate`** exige sesión; sin ella 401. No se cambia la lógica del stub Gemini.
 9. **Sin env Supabase** → la UI de login no crashea; mensaje explícito. Login/signup no son usables hasta configurar env.
-10. **Protección:** `middleware.ts` refresca cookies y redirige páginas; el servidor verifica con `getUser` / `requireUser()` (patrón `@supabase/ssr`).
+10. **Protección:** `proxy.ts` (convención Next.js 16; no `middleware.ts`) refresca cookies y redirige páginas; el servidor verifica con `getUser` / `requireUser()` (patrón `@supabase/ssr`).
 
 ## Entradas
 
@@ -61,7 +61,7 @@ No se usa `SUPABASE_SERVICE_ROLE_KEY`. Auth va con anon key + cookies de usuario
 - Signup con email ya registrado → mensaje genérico (no enumerar).
 - Proyecto Supabase inalcanzable / timeout → error de red visible; no crash.
 - Env ausente → mensaje de configuración; no intentar `createClient` sin env (`isSupabaseConfigured` / `HttpError` `SUPABASE_NOT_CONFIGURED`).
-- Sesión caducada → mismo tratamiento que sin sesión (redirect / 401). Middleware **refresca** tokens renovables.
+- Sesión caducada → mismo tratamiento que sin sesión (redirect / 401). El proxy **refresca** tokens renovables.
 - Usuario autenticado que pide `/login` → redirect a `/`.
 - Doble submit → deshabilitar el botón en vuelo.
 - `next` absoluto, protocolo o `//` → ignorar y usar `/` (anti open-redirect).
@@ -114,7 +114,7 @@ Aprobadas por el usuario (2026-08-14), pack recomendado:
 | D1 | Email + password (no magic link) |
 | D2 | Login + «Crear cuenta» en `/login` |
 | D3 | `/` es la app (protegida); `/login` y health públicos |
-| D4 | Middleware + `getUser` en server; `?next=` relativo interno |
+| D4 | `proxy.ts` (Next.js 16) + `getUser` en server; `?next=` relativo interno. No usar `middleware.ts` (deprecado). |
 | D5 | Sin UI de confirm email ni reset; README para local |
 | D6 | `requireUser()` en APIs de producto; health público |
 | D7 | Tests Jest con mocks (validación, 401, redirects); sin E2E |
@@ -134,17 +134,18 @@ Aprobadas por el usuario (2026-08-14), pack recomendado:
 
 ## Criterios de aceptación
 
-- [ ] Caso feliz: login con usuario válido → home autenticada; recarga mantiene sesión; logout → login y las protegidas ya no entran.
-- [ ] Signup desde `/login` crea cuenta y deja sesión iniciada.
-- [ ] Sin sesión: páginas protegidas redirigen a `/login?next=…`; `POST /api/plan/generate` responde 401; `GET /api/health` sigue 200.
-- [ ] Credenciales inválidas y validación de formulario cubiertas (mensaje genérico / errores de campo).
-- [ ] `next` no relativo interno se ignora (redirect a `/`).
-- [ ] Sin `NEXT_PUBLIC_SUPABASE_*`: login no crashea; mensaje de configuración.
-- [ ] Tests Jest: validación Zod, `requireUser` 401 vs sesión mock, redirects (mocks; no E2E).
-- [ ] No se implementó onboarding, plan, logs ni deploy.
-- [ ] No se añadieron tablas de perfil ni service role.
-- [ ] README: cómo crear el usuario (signup en UI o dashboard) y desactivar confirmación de email en local.
-- [ ] No se tocaron archivos fuera de auth / protección de rutas / docs de esta spec.
+- [x] Caso feliz: login con usuario válido → home autenticada; recarga mantiene sesión; logout → login y las protegidas ya no entran.
+- [x] Signup desde `/login` crea cuenta y deja sesión iniciada.
+- [x] Sin sesión: páginas protegidas redirigen a `/login?next=…`; `POST /api/plan/generate` responde 401; `GET /api/health` sigue 200.
+- [x] Credenciales inválidas y validación de formulario cubiertas (mensaje genérico / errores de campo).
+- [x] `next` no relativo interno se ignora (redirect a `/`).
+- [x] Sin `NEXT_PUBLIC_SUPABASE_*`: login no crashea; mensaje de configuración.
+- [x] Tests Jest: validación Zod, `requireUser` 401 vs sesión mock, redirects (mocks; no E2E).
+- [x] No se implementó onboarding, plan, logs ni deploy.
+- [x] No se añadieron tablas de perfil ni service role.
+- [x] README: cómo crear el usuario (signup en UI o dashboard) y desactivar confirmación de email en local.
+- [x] No se tocaron archivos fuera de auth / protección de rutas / docs de esta spec.
+- [x] Intercepto de rutas en `proxy.ts` (`export async function proxy`), no en `middleware.ts`.
 - [ ] _(Opcional)_ PR enlaza a esta spec.
 
 ## Plan de implementación
@@ -152,7 +153,7 @@ Aprobadas por el usuario (2026-08-14), pack recomendado:
 Rama: `feat/spec-002-auth`. No ejecutar en `main`.
 
 1. Helper de sesión server-side (`getUser` / `requireUser`) sobre `lib/supabase/server.ts`.
-2. `middleware.ts`: refresh de cookies + redirect de páginas protegidas (`next` seguro).
+2. `proxy.ts`: refresh de cookies + redirect de páginas protegidas (`next` seguro). Función exportada `proxy`.
 3. Página `/login` + validación Zod + signup.
 4. Adaptar `app/page.tsx` a shell autenticada + logout.
 5. Proteger `POST /api/plan/generate`; dejar health público.
@@ -161,4 +162,13 @@ Rama: `feat/spec-002-auth`. No ejecutar en `main`.
 
 ## Notas de implementación
 
-_Rellenar al pasar a `implemented`._
+- **2026-08-14:** Implementado en `feat/spec-002-auth`. Línea base Jest: 2 suites / 4 tests. Tras el cambio: 12 suites / 31 tests. `npm test`, `npm run lint`, `npx tsc --noEmit` y `npm run build` OK.
+- Helpers: `lib/auth/session.ts` (`getUser` / `requireUser`) sobre el cliente de `lib/supabase/server.ts`; `sanitizeNextPath`; `resolvePageRedirect`.
+- `proxy.ts` (Next.js 16) refresca cookies (`lib/supabase/middleware.ts`, helper SSR) y redirige páginas. APIs no se redirigen: 401 vía `requireUser`.
+- UI: `/login` (Entrar + Crear cuenta), `/` shell autenticada + logout. Copy en español.
+- `POST /api/plan/generate` exige sesión; `GET /api/health` público. Stub Gemini sin cambios de lógica.
+- Tests Jest con mocks (Zod, sesión, redirects, formulario, 401, proxy). Tests de route handlers y `proxy.ts` en entorno `node`.
+- `jest.config.mjs`: `moduleNameMapper` `@/` para que `jest.mock` resuelva alias.
+- README: Site URL local, desactivar Confirm email, signup en UI o dashboard.
+- **2026-08-14 (alcance):** D4 actualizado: `middleware.ts` deprecado en Next 16.3 → `proxy.ts` + `export async function proxy`. Misma lógica; se elimina `middleware.ts`.
+- Sin tablas `profiles`, sin service role, sin onboarding/plan/deploy.
