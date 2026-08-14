@@ -1,0 +1,27 @@
+---
+description: Convenciones API y lib — validación, errores, paginación, IDs
+globs: app/api/**/*,lib/**/*
+alwaysApply: false
+---
+
+# API conventions
+
+## Convenciones
+
+- Validación con **Zod** en límites de API (`lib/validation/schemas/`).
+- Errores HTTP con **`HttpError`** en `lib/errors/http-error.ts`; capturar en Route Handlers.
+- Helpers de env en `lib/config/env.ts` — no leer `process.env` disperso.
+- Paginación por cursor (`created_at`); no `offset` salvo que la spec lo pida.
+- IDs en **UUID v7** donde aplique persistencia (specs 002–003).
+
+## Supabase
+
+- Browser: `lib/supabase/client.ts` (`createClient`).
+- Server: `lib/supabase/server.ts` (`createClient` async).
+- Si env falta → `HttpError` 503 con código `SUPABASE_NOT_CONFIGURED`.
+
+## No hacer
+
+- No devolver JSON crudo de la IA sin validar con Zod.
+- No modificar migraciones Supabase ya aplicadas — crear migración nueva.
+- No instalar dependencias sin justificar al usuario.

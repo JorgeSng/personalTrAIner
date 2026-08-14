@@ -1,0 +1,56 @@
+---
+description: Checklist antes de modificar código y antes de cerrar una tarea
+alwaysApply: true
+---
+
+# Dev workflow
+
+## Consultar antes de decidir
+
+Si surge un bloqueo o hay varias formas válidas de cumplir la spec → **no improvisar**. Explicar opciones y esperar respuesta del usuario (ver `AGENTS.md`).
+
+## Antes de modificar código
+
+1. Confirmar spec **approved** (regla `sdd-core`) o alcance acordado explícitamente.
+2. Leer el código afectado (endpoint, componente, lib) y sus **tests** existentes.
+3. Ejecutar `npm test` y anotar la línea base (pass/fail).
+4. No instalar dependencias nuevas sin justificarlas y obtener OK del usuario.
+
+## Al crear archivos o carpetas
+
+Antes de dar por cerrada una tarea que **crea rutas nuevas**, comprobar si deben versionarse:
+
+| No subir al repo | Sí subir al repo |
+|---|---|
+| Caché y build (`.next/`, `.swc/`, `coverage/`) | Código fuente (`app/`, `lib/`, `components/`) |
+| Dependencias (`node_modules/`) | Specs, ADR, rules/skills (`docs/`, `.cursor/`) |
+| Secretos y env local (`.env`, `.env*.local`) | Config de proyecto (`package.json`, `tsconfig.json`, …) |
+| Artefactos de deploy (`.vercel/`, `out/`) | Tests y fixtures versionados |
+
+Si el archivo/carpeta encaja en la columna izquierda → añadir o proponer entrada en `.gitignore` **en la misma tarea**. Si hay duda (p. ej. config de IDE compartible vs local) → **preguntar al usuario**.
+
+## Antes de cerrar
+
+1. Ejecutar `npm test` — no empeorar la línea base salvo motivo documentado.
+2. Revisar el diff: solo archivos dentro del alcance de la spec/tarea.
+3. Comprobar que no queden artefactos generados o secretos sin ignorar (`git status`).
+4. Actualizar spec a `implemented` + notas si hubo cambios de repo.
+
+## Git (obligatorio)
+
+**Preguntar siempre al usuario antes** de cualquier operación que **modifique** el repo o el remoto:
+
+- `git add`, `git commit`, `git push`, `git pull`
+- merge, rebase, reset, stash, cherry-pick, tag
+- crear, borrar o renombrar ramas con efecto en remoto
+
+**Permitido sin preguntar** (solo lectura, diagnóstico): `git status`, `git diff`, `git log`, `git show`.
+
+Nunca asumir que el usuario quiere commit/push aunque la tarea esté terminada — **proponer** y esperar OK explícito.
+
+## No hacer (workflow)
+
+- No elegir workarounds (scaffold manual, otra herramienta, copiar desde tmp) sin consultar.
+- No cambiar la estructura de carpetas acordada sin confirmación.
+- No tocar specs/ADR fuera del alcance de la tarea.
+- No ejecutar operaciones git mutables sin confirmación del usuario.

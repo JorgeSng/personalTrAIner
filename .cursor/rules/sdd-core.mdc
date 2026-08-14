@@ -1,0 +1,40 @@
+---
+description: Reglas SDD core — spec antes de código, alcance personalTrAIner
+alwaysApply: true
+---
+
+# SDD Core — personalTrAIner
+
+## Gate de implementación
+
+Antes de escribir código de una **feature nueva**:
+
+1. Comprobar que existe spec en `docs/specs/` con estado `approved`.
+2. Si no existe → proponer crear spec (skill `write-spec`) y **parar**.
+3. Si está en `draft` → no implementar hasta aprobación del usuario.
+
+Excepciones: typos, formato, fix acotado ya cubierto por spec existente.
+
+## Durante implementación
+
+- Implementar **solo** requisitos y criterios de aceptación de la spec activa.
+- Bloqueo o varias opciones válidas → **consultar al usuario**; no elegir workaround sin OK.
+- Desviación necesaria → documentar en la spec antes de continuar.
+- Preferir diff mínimo; no refactorizar fuera de scope.
+
+## Al terminar
+
+- Actualizar spec: estado `implemented`, sección "Notas de implementación".
+- Verificar criterios de aceptación uno a uno.
+
+## Dominio entrenamiento
+
+- Perfil, material y lesiones = datos de **onboarding/usuario**, no constantes en código ni en AGENTS.md.
+- Planes y ejercicios deben respetar el perfil cargado (equipo, impacto, cargas máximas, frecuencia).
+- Enlaces LoadMuscle para técnica; no scrapear/embeber assets.
+- No imponer dietas ni conteo calórico en la app.
+
+## Git
+
+- Preguntar al usuario antes de cualquier operación git mutable (commit, push, pull, add, merge, rebase, ramas…). Ver regla `dev-workflow`.
+- Al crear archivos/carpetas, comprobar si deben ignorarse en `.gitignore`.
