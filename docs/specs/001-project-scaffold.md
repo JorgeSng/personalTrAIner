@@ -64,10 +64,10 @@ docs/                        # existente — no mover
 ## Fuera de alcance
 
 - Pantallas login/onboarding (spec 002).
-- Tablas Supabase de perfil/plan (specs 002–003).
+- Tablas Supabase de perfil/plan (specs **003+**).
 - Deploy a Vercel (documentar en README; ejecutar cuando el usuario lo pida).
 - E2E (Playwright).
-- Validación Zod de planes de entrenamiento (spec 003).
+- Validación Zod de planes de entrenamiento (spec **006+**); esquema de perfil en spec **003**, API en **004**.
 
 ## Criterios de aceptación
 

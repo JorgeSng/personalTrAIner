@@ -53,7 +53,7 @@ Idea → Spec (draft) → Revisión usuario → Spec (approved) → Implementaci
 3. Implementa **solo** lo que dice la spec activa (`implement-from-spec`): leer spec → si falta decisión, preguntar → tests antes del código → no tocar fuera de alcance sin OK → al final, mapa spec → cambio.
 4. Al terminar, actualiza la spec a `implemented` y anota desviaciones (`update-spec`).
 5. Cambios de alcance → actualizar spec **antes** de seguir codeando.
-6. Orden MVP: índice en [`docs/specs/README.md`](./docs/specs/README.md). No adelantar specs futuras.
+6. Orden MVP: índice en [`docs/specs/README.md`](./docs/specs/README.md). No adelantar specs futuras. Si una spec es demasiado grande, **dividir** y actualizar el roadmap antes de implementar.
 
 ## Fuente de verdad
 

@@ -34,7 +34,7 @@ export async function generatePlanStub(): Promise<PlanGenerateStubResult> {
 
   return {
     mock: false,
-    message: "Gemini connectivity ok (full plan generation in spec 003)",
+    message: "Gemini connectivity ok (full plan generation in spec 006)",
     weekLabel: "week-1-stub",
   };
 }

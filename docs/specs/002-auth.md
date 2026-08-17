@@ -95,7 +95,7 @@ No hay tablas de aplicación en esta spec.
 
 - Identidad: `auth.users` (gestionado por Supabase Auth).
 - Sesión: cookies HTTP (SSR); no localStorage como fuente de verdad en el servidor.
-- **No** crear tabla `profiles` ni migraciones de perfil (spec-003).
+- **No** crear tabla `profiles` ni migraciones de perfil (spec-**003**).
 - RLS: no hay tablas propias que proteger aún. README: las tablas futuras usarán `auth.uid()` (ADR-001).
 
 ## Integraciones
@@ -121,9 +121,9 @@ Aprobadas por el usuario (2026-08-14), pack recomendado:
 
 ## Fuera de alcance
 
-- Onboarding y perfil de entrenamiento (spec-003).
-- Motor de plan, Gemini de verdad, enlaces LoadMuscle (spec-004).
-- Registro de sesiones / peso × reps (spec-005) e iteración semanal (spec-006).
+- Onboarding y perfil de entrenamiento (specs **003–005**).
+- Motor de plan, Gemini de verdad, enlaces LoadMuscle (spec-**006**).
+- Registro de sesiones / peso × reps (spec-**007**) e iteración semanal (spec-**008**).
 - Deploy Vercel y redirect URLs de producción.
 - OAuth, MFA, magic link.
 - UI de recuperar contraseña y de confirmar email.
@@ -171,4 +171,5 @@ Rama: `feat/spec-002-auth`. No ejecutar en `main`.
 - `jest.config.mjs`: `moduleNameMapper` `@/` para que `jest.mock` resuelva alias.
 - README: Site URL local, desactivar Confirm email, signup en UI o dashboard.
 - **2026-08-14 (alcance):** D4 actualizado: `middleware.ts` deprecado en Next 16.3 → `proxy.ts` + `export async function proxy`. Misma lógica; se elimina `middleware.ts`.
+- **2026-08-17:** Verificado en local por el usuario: signup, sesión, recarga, logout; usuario visible en Supabase Auth. Spec-002 dada por cerrada; siguiente spec activa del roadmap: 003.
 - Sin tablas `profiles`, sin service role, sin onboarding/plan/deploy.
