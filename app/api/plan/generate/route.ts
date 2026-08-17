@@ -1,10 +1,12 @@
 import { NextResponse } from "next/server";
 
 import { generatePlanStub } from "@/lib/ai/gemini";
+import { requireUser } from "@/lib/auth/session";
 import { isHttpError } from "@/lib/errors/http-error";
 
 export async function POST() {
   try {
+    await requireUser();
     const result = await generatePlanStub();
 
     return NextResponse.json(

@@ -12,7 +12,7 @@ alwaysApply: false
 - Errores HTTP con **`HttpError`** en `lib/errors/http-error.ts`; capturar en Route Handlers.
 - Helpers de env en `lib/config/env.ts` — no leer `process.env` disperso.
 - Paginación por cursor (`created_at`); no `offset` salvo que la spec lo pida.
-- IDs en **UUID v7** donde aplique persistencia (specs 002–003).
+- IDs en **UUID v7** donde aplique persistencia (specs **003+**).
 
 ## Supabase
 

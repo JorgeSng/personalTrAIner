@@ -13,24 +13,32 @@ description: Implementa código siguiendo una spec approved en docs/specs/. Usar
 
 ## Pasos
 
-1. Leer la spec completa + `AGENTS.md`.
+1. **Leer la spec** completa + `AGENTS.md` **antes de tocar código**.
 2. Listar criterios de aceptación; confirmar plan de archivos a tocar.
-3. Implementar **solo** in-scope; diff mínimo.
-4. Verificar cada criterio de aceptación.
-5. Invocar skill `update-spec` (o actualizar manualmente):
+3. **Si falta una decisión** → preguntar al usuario; **no inventar**.
+4. **Escribir o actualizar tests** (Jest) que cubran los criterios **antes** del código de producto.
+5. Implementar **solo** in-scope hasta que esos tests pasen; diff mínimo.
+6. Verificar cada criterio de aceptación.
+7. Invocar skill `update-spec` (o actualizar manualmente):
    - Estado → `implemented`
    - Rellenar «Notas de implementación» (archivos, desviaciones).
+8. **Resumir** qué líneas o secciones de la spec cubre cada cambio.
 
 ## Reglas
 
+- Lee la spec antes de tocar código.
+- Si falta una decisión, pregunta antes de implementar; no inventes.
+- Escribe o actualiza tests antes del código.
+- No modifiques archivos fuera del alcance sin pedir confirmación.
+- Al final, resume qué líneas de la spec cubre cada cambio.
 - Desviación de la spec o del enfoque acordado → **consultar al usuario** antes de continuar; no sustituir por alternativas unilaterales.
 - Desviación documentada → actualizar spec o notas con motivo.
 - No añadir features no listadas en la spec.
 - No `add`/`commit`/`push` ni otras operaciones git mutables sin OK explícito (`AGENTS.md`).
-- Decisiones de diseño no resueltas en la spec → preguntar; no elegir por cuenta propia.
 
 ## Salida al usuario
 
 - Qué se implementó vs spec.
 - Criterios cumplidos / pendientes.
 - Path de spec actualizada.
+- Mapa **spec → cambio**: sección o líneas de la spec cubiertas por cada archivo/diff.

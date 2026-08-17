@@ -15,5 +15,6 @@ Al crear o editar specs en `docs/specs/`:
 - **Tipo infra** → Comportamiento esperado + Fuera de alcance; Entradas/Salidas pueden ser N/A.
 - Criterios de aceptación como checklist `- [ ]` verificable (incluir tests Jest).
 - **Fuera de alcance** explícito; no borrar specs — marcar `superseded` y enlazar la nueva.
+- Spec demasiado grande (infra + UI + API) → dividir; actualizar roadmap en `README.md` (ver sección «Tamaño de una spec»).
 
 `_template.md` es la plantilla acordada — no modificar salvo acuerdo explícito con el usuario.

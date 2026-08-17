@@ -108,16 +108,18 @@
 
 ### Follow-up
 
-Índice de specs en [`docs/specs/README.md`](../specs/README.md) (acordado 2026-08-14):
+Índice de specs en [`docs/specs/README.md`](../specs/README.md) — **fuente de verdad del roadmap** (actualizado 2026-08-17):
 
 1. Spec `001-project-scaffold.md` → bootstrap + Jest + Supabase clients. **implemented**
-2. Spec `002-auth.md` → login/logout, sesión, rutas protegidas. **siguiente**
-3. Spec `003-onboarding-profile.md` → perfil de entrenamiento persistido.
-4. Spec `004-workout-plan-engine.md` → generación de plan + LoadMuscle.
-5. Spec `005-session-log.md` → registro peso × reps.
-6. Spec `006-weekly-iteration.md` → ajuste semanal del plan.
+2. Spec `002-auth.md` → login/logout, sesión, rutas protegidas. **implemented**
+3. Spec `003-profile-schema.md` → tabla `profiles`, migración, RLS, Zod (sin UI ni API).
+4. Spec `004-profile-api.md` → Route Handlers perfil, auth, validación Zod.
+5. Spec `005-onboarding-capture.md` → flujo post-login, formulario, consume API 004.
+6. Spec `006-workout-plan-engine.md` → generación de plan + LoadMuscle.
+7. Spec `007-session-log.md` → registro peso × reps.
+8. Spec `008-weekly-iteration.md` → ajuste semanal del plan.
 
-Deploy Vercel cuando 002+003 funcionen en local.
+Deploy Vercel cuando 002 + 003 + 004 + 005 funcionen en local (perfil completo).
 
 ## Aprobación
 

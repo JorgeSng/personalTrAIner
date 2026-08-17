@@ -17,6 +17,16 @@ Excepciones: typos, formato, fix acotado ya cubierto por spec existente.
 
 ## Durante implementación
 
+Normas al implementar desde una spec (skill `implement-from-spec`):
+
+- **Lee la spec** antes de tocar código.
+- **Si falta una decisión**, pregunta antes de implementar; no inventes.
+- **Escribe o actualiza tests** antes del código.
+- **No modifiques archivos fuera del alcance** sin pedir confirmación.
+- **Al final**, resume qué líneas (o secciones) de la spec cubre cada cambio.
+
+Además:
+
 - Implementar **solo** requisitos y criterios de aceptación de la spec activa.
 - Bloqueo, varias opciones válidas o **decisión de diseño** (UX, datos, API, carpetas, libs) → **consultar al usuario**; no elegir workaround sin OK.
 - Desviación necesaria → documentar en la spec antes de continuar.
@@ -26,6 +36,7 @@ Excepciones: typos, formato, fix acotado ya cubierto por spec existente.
 
 - Actualizar spec: estado `implemented`, sección "Notas de implementación".
 - Verificar criterios de aceptación uno a uno.
+- Entregar el resumen spec → cambio (secciones o líneas cubiertas).
 
 ## Dominio entrenamiento
 
