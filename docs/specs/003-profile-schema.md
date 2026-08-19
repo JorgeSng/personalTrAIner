@@ -2,7 +2,7 @@
 
 | Campo | Valor |
 |---|---|
-| **Estado** | approved |
+| **Estado** | implemented |
 | **Tipo** | infra |
 | **Fecha** | 2026-08-17 |
 | **Supersede** | — (bloque histórico `003-onboarding-profile`, no llegó a existir como archivo) |
@@ -146,18 +146,18 @@ Aprobadas por el usuario (2026-08-17), **pack A**:
 
 ## Criterios de aceptación
 
-- [ ] Migración SQL aplicable crea `public.profiles` con columnas del MVP acordado.
-- [ ] RLS habilitado; políticas SELECT/INSERT/UPDATE own-row para `authenticated`; sin DELETE.
-- [ ] `GRANT SELECT, INSERT, UPDATE` para `authenticated` documentado/aplicado.
-- [ ] PK = `user_id`; FK a `auth.users` con `ON DELETE CASCADE`.
-- [ ] CHECK en DB para `experience_level` y `training_days_per_week` (recomendado).
-- [ ] Trigger `updated_at` en UPDATE.
-- [ ] Esquema Zod en `lib/validation/schemas/profile.ts` alineado con columnas.
-- [ ] Tests Jest del Zod (enums, 1–7 días, equipment no vacío, injuries opcional).
-- [ ] README: cómo aplicar la migración en Supabase local.
-- [ ] Verificación documentada: usuario autenticado inserta/lee su fila; no lee filas ajenas.
-- [ ] No se implementaron rutas `/api/profile` ni UI de onboarding.
-- [ ] No se tocaron archivos fuera de migración, Zod, tests, docs de esta spec.
+- [x] Migración SQL aplicable crea `public.profiles` con columnas del MVP acordado.
+- [x] RLS habilitado; políticas SELECT/INSERT/UPDATE own-row para `authenticated`; sin DELETE.
+- [x] `GRANT SELECT, INSERT, UPDATE` para `authenticated` documentado/aplicado.
+- [x] PK = `user_id`; FK a `auth.users` con `ON DELETE CASCADE`.
+- [x] CHECK en DB para `experience_level` y `training_days_per_week` (recomendado).
+- [x] Trigger `updated_at` en UPDATE.
+- [x] Esquema Zod en `lib/validation/schemas/profile.ts` alineado con columnas.
+- [x] Tests Jest del Zod (enums, 1–7 días, equipment no vacío, injuries opcional).
+- [x] README: cómo aplicar la migración en Supabase local.
+- [x] Verificación documentada: usuario autenticado inserta/lee su fila; no lee filas ajenas.
+- [x] No se implementaron rutas `/api/profile` ni UI de onboarding.
+- [x] No se tocaron archivos fuera de migración, Zod, tests, docs de esta spec.
 - [ ] _(Opcional)_ PR enlaza a esta spec.
 
 ## Plan de implementación
@@ -172,4 +172,10 @@ Rama sugerida: `feat/spec-003-profile-schema`. **No ejecutar hasta que el usuari
 
 ## Notas de implementación
 
-_Rellenar al pasar a `implemented`._
+- **Rama:** `feat/spec-003-profile-schema`
+- **Migración:** `supabase/migrations/20260817140000_create_profiles.sql` — tabla, CHECK (`experience_level`, `training_days_per_week`, `cardinality(equipment) > 0`), RLS (SELECT/INSERT/UPDATE own-row), GRANT, trigger `profiles_set_updated_at`.
+- **Zod:** `lib/validation/schemas/profile.ts` — `experienceLevelSchema`, `profileSchema` (claves snake_case alineadas con columnas), tipos `ExperienceLevel` y `Profile`; reexport en `lib/validation/schemas/index.ts`.
+- **Tests:** `lib/validation/schemas/profile.test.ts` (12 casos: enum, rango 1–7, equipment, injuries opcional/null).
+- **Docs:** README sección «Perfil (SPEC-003)» con apply migration + verificación RLS manual.
+- **Verificación RLS:** completada en Supabase (INSERT/SELECT solo tu fila; sin acceso a filas ajenas según políticas de RLS).
+- **Desviaciones:** ninguna respecto a la spec.

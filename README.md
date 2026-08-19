@@ -51,6 +51,45 @@ Supabase Auth (email + password). Las tablas futuras usarán `auth.uid()` (RLS).
 
 `GET /api/health` es público. El resto de páginas y `POST /api/plan/generate` exigen sesión.
 
+## Perfil (SPEC-003)
+
+Tabla `public.profiles` (1:1 con `auth.users`) con RLS por `auth.uid()`. Sin fila = usuario aún sin onboarding.
+
+### Aplicar migración
+
+1. Abre [Supabase Dashboard](https://supabase.com/dashboard) → tu proyecto → **SQL Editor**.
+2. Copia y ejecuta el contenido de [`supabase/migrations/20260817140000_create_profiles.sql`](./supabase/migrations/20260817140000_create_profiles.sql).
+3. Comprueba en **Table Editor** que existe `profiles` con las columnas del MVP.
+
+Si el proyecto tiene desactivado «Automatically expose new tables», el `GRANT` de la migración es necesario para que la API vea la tabla.
+
+### Verificar RLS (manual)
+
+Con un usuario autenticado en la app (sesión activa en el navegador):
+
+1. En **SQL Editor**, ejecuta como referencia (sustituye el UUID por tu `auth.users.id`):
+
+```sql
+-- Debe devolver 0 filas si aún no hay perfil (estado válido)
+SELECT * FROM public.profiles WHERE user_id = auth.uid();
+```
+
+2. Desde la app o con el cliente Supabase autenticado (anon key + sesión), inserta tu fila:
+
+```sql
+INSERT INTO public.profiles (user_id, experience_level, training_days_per_week, equipment)
+VALUES (
+  auth.uid(),
+  'beginner',
+  3,
+  ARRAY['dumbbells']
+);
+```
+
+3. Comprueba que solo ves tu fila y que un segundo `INSERT` con el mismo `user_id` falla por PK.
+
+No uses `SUPABASE_SERVICE_ROLE_KEY` para estas pruebas; la verificación debe reflejar el acceso real del cliente autenticado.
+
 ## Variables de entorno
 
 Ver [.env.example](./.env.example).
