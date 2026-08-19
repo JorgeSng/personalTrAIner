@@ -18,7 +18,7 @@ Estas normas aplican en **cualquier chat**; el usuario no tiene que repetirlas.
 1. Confirmar spec **approved** (regla `sdd-core`) o alcance acordado explícitamente.
 2. **Leer la spec** afectada completa. Si falta una decisión → preguntar; no inventar.
 3. Leer el código afectado (endpoint, componente, lib) y sus **tests** existentes.
-4. Ejecutar `npm test` y anotar la línea base (pass/fail).
+4. Ejecutar `npm run lint:ci`, `npm run typecheck` y `npm test` y anotar la línea base (pass/fail).
 5. **Escribir o actualizar tests** que cubran el cambio **antes** del código de producto (ver `sdd-core`).
 6. No instalar dependencias nuevas sin justificarlas y obtener OK del usuario.
 7. No modificar archivos **fuera del alcance** de la spec/tarea sin confirmación del usuario.
@@ -38,7 +38,7 @@ Si el archivo/carpeta encaja en la columna izquierda → añadir o proponer entr
 
 ## Antes de cerrar
 
-1. Ejecutar `npm test` — no empeorar la línea base salvo motivo documentado.
+1. Ejecutar `npm run lint:ci`, `npm run typecheck` y `npm test` — no empeorar la línea base salvo motivo documentado.
 2. Revisar el diff: solo archivos dentro del alcance de la spec/tarea.
 3. Comprobar que no queden artefactos generados o secretos sin ignorar (`git status`).
 4. Actualizar spec a `implemented` + notas si hubo cambios de repo.

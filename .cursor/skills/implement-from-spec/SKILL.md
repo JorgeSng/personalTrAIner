@@ -19,10 +19,11 @@ description: Implementa código siguiendo una spec approved en docs/specs/. Usar
 4. **Escribir o actualizar tests** (Jest) que cubran los criterios **antes** del código de producto.
 5. Implementar **solo** in-scope hasta que esos tests pasen; diff mínimo.
 6. Verificar cada criterio de aceptación.
-7. Invocar skill `update-spec` (o actualizar manualmente):
+7. Ejecutar `npm run lint:ci`, `npm run typecheck` y `npm test` para confirmar calidad; si fallan, corregir antes de continuar.
+8. Invocar skill `update-spec` (o actualizar manualmente):
    - Estado → `implemented`
    - Rellenar «Notas de implementación» (archivos, desviaciones).
-8. **Resumir** qué líneas o secciones de la spec cubre cada cambio.
+9. **Resumir** qué líneas o secciones de la spec cubre cada cambio.
 
 ## Reglas
 
