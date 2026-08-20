@@ -34,6 +34,8 @@ Además:
 
 ## Al terminar
 
+- Pasar el gate de calidad de `dev-workflow`: linter/IDE en archivos tocados + `npm run lint:ci`, `npm run typecheck` y `npm test`.
+- Si hubo código de producto: **2 pasadas de calidad** (`dev-workflow`) — aplica a toda implementación, no solo a una spec concreta.
 - Actualizar spec: estado `implemented`, sección "Notas de implementación".
 - Verificar criterios de aceptación uno a uno.
 - Entregar el resumen spec → cambio (secciones o líneas cubiertas).

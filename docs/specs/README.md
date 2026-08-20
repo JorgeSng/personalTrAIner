@@ -18,8 +18,8 @@ Ejemplos: `001-project-scaffold.md`, `002-auth.md`, `003-profile-schema.md`
 |---|---|---|---|---|---|
 | 001 | [project-scaffold](./001-project-scaffold.md) | Next.js 16, Jest, stubs API, clientes Supabase/Gemini | infra | ADR-001 | **implemented** |
 | 002 | [auth](./002-auth.md) | Login/logout, sesión, rutas protegidas (Supabase Auth) | feature | 001 | **implemented** |
-| 003 | [profile-schema](./003-profile-schema.md) | Tabla `profiles`, migración SQL, RLS, esquema Zod (sin UI ni API) | infra | 002 | **approved** |
-| 004 | profile-api | Route Handlers perfil (`GET`/`POST`/`PATCH`), `requireUser`, Zod | api | 003 | pendiente |
+| 003 | [profile-schema](./003-profile-schema.md) | Tabla `profiles`, migración SQL, RLS, esquema Zod (sin UI ni API) | infra | 002 | **implemented** |
+| 004 | [profile-api](./004-profile-api.md) | Route Handlers perfil (`GET`/`POST`/`PATCH`), `requireUser`, Zod | api | 003 | **implemented** |
 | 005 | onboarding-capture | Flujo post-login, formulario, redirect sin perfil; consume API 004 | feature | 004 | pendiente |
 | 006 | workout-plan-engine | Generar plan con Gemini, guardar, enlaces LoadMuscle | feature | 005 | pendiente |
 | 007 | session-log | Registrar peso × reps de una sesión | feature | 006 | pendiente |
@@ -29,7 +29,7 @@ Ejemplos: `001-project-scaffold.md`, `002-auth.md`, `003-profile-schema.md`
 
 Fuera de este índice hasta que **002 + 003 + 004 + 005** funcionen en local: deploy a Vercel (ver ADR-001).
 
-**Siguiente trabajo:** implementar spec-003 (`003-profile-schema.md`) cuando el usuario lo pida — solo datos. Redactar spec-004 (`profile-api`) en draft después o en paralelo (sin implementar 004 hasta approved).
+**Siguiente trabajo:** redactar/implementar spec-005 (`onboarding-capture`) cuando el usuario lo pida — UI que consume la API de perfil (004).
 
 ## Tamaño de una spec (cuándo dividir)
 

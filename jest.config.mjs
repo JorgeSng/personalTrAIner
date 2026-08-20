@@ -13,6 +13,25 @@ const config = {
   moduleNameMapper: {
     "^@/(.*)$": "<rootDir>/$1",
   },
+  collectCoverageFrom: [
+    "app/**/*.{ts,tsx}",
+    "lib/**/*.{ts,tsx}",
+    "components/**/*.{ts,tsx}",
+    "!**/*.test.{ts,tsx}",
+    "!**/*.d.ts",
+    "!app/layout.tsx",
+    "!lib/validation/schemas/index.ts",
+    "!lib/supabase/**",
+    "!lib/ai/**",
+  ],
+  coverageThreshold: {
+    global: {
+      statements: 75,
+      branches: 60,
+      functions: 70,
+      lines: 75,
+    },
+  },
 };
 
 export default createJestConfig(config);
