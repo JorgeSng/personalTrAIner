@@ -26,6 +26,16 @@ Estas normas viven aquí y en `.cursor/rules/` (`alwaysApply`). **No hace falta*
 
 Al terminar una tarea: **proponer** commit/push y **esperar OK**. Nunca asumir que hay que versionar.
 
+### Calidad al cerrar
+
+Antes de dar **cualquier tarea** por terminada (no solo specs):
+
+1. Revisar **linter / diagnósticos del IDE** en los archivos tocados y corregir errores **nuevos** (un rojo en el editor cuenta aunque `lint:ci` pase).
+2. Ejecutar `npm run lint:ci`, `npm run typecheck` y `npm test`. Si fallan, corregir y repetir; no cerrar.
+3. Si cambió código de producto: **2 pasadas de calidad** (regla `dev-workflow`) — cualquier tarea, no solo specs. No usar `/loop` (eso es periódico).
+
+Detalle del checklist: regla `dev-workflow`.
+
 ### Decisiones de diseño
 
 **Para y pregunta** antes de elegir (no improvisar). Incluye, entre otras:

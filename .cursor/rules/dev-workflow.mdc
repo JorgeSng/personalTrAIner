@@ -36,13 +36,30 @@ Antes de dar por cerrada una tarea que **crea rutas nuevas**, comprobar si deben
 
 Si el archivo/carpeta encaja en la columna izquierda → añadir o proponer entrada en `.gitignore` **en la misma tarea**. Si hay duda (p. ej. config de IDE compartible vs local) → **preguntar al usuario**.
 
-## Antes de cerrar
+## Antes de cerrar (obligatorio, cualquier tarea)
 
-1. Ejecutar `npm run lint:ci`, `npm run typecheck` y `npm test` — no empeorar la línea base salvo motivo documentado.
-2. Revisar el diff: solo archivos dentro del alcance de la spec/tarea.
-3. Comprobar que no queden artefactos generados o secretos sin ignorar (`git status`).
-4. Actualizar spec a `implemented` + notas si hubo cambios de repo.
-5. Resumir qué líneas o secciones de la spec cubre cada cambio.
+No dar la tarea por terminada hasta pasar este gate. Si algo falla, **corregir y repetir** antes de responder al usuario.
+
+1. **Linter / diagnósticos del IDE** en **todos los archivos tocados** (errores TS y ESLint del editor, no solo CLI). Corregir los **nuevos**; no ignorar un rojo del IDE porque `lint:ci` haya pasado.
+2. Ejecutar `npm run lint:ci`, `npm run typecheck` y `npm test`. No empeorar la línea base salvo motivo documentado.
+3. Si cambió código de producto (`app/`, `lib/`, `components/`, tests): **2 pasadas de calidad** (abajo). Aplica a **cualquier** tarea, no solo a specs.
+4. Revisar el diff: solo archivos dentro del alcance de la spec/tarea.
+5. Comprobar que no queden artefactos generados o secretos sin ignorar (`git status`).
+6. Actualizar spec a `implemented` + notas si hubo cambios de repo.
+7. Resumir qué líneas o secciones de la spec cubre cada cambio (si hay spec).
+
+### Dos pasadas de calidad
+
+Tras el gate, **máximo 2 ciclos** de (revisar → arreglar in-scope → repetir gate). No es `/loop` (eso es periódico).
+
+Cada pasada:
+
+1. Releer el pedido (spec/criterios si hay; si no, el mensaje del usuario) y el **diff**.
+2. Buscar, en orden: bugs vs lo pedido; huecos de tests; convenciones del repo; duplicación local mínima.
+3. Sin hallazgos in-scope → **parar**. Con hallazgos: tests primero si aplica, arreglo mínimo, re-gate.
+4. Decisión de diseño o fuera de alcance → listar y **preguntar**; no refactorizar por gusto.
+
+Parar al segundo ciclo aunque quede deuda; reportarla, no seguir.
 
 ## Git (obligatorio)
 
