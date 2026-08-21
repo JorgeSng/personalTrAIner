@@ -73,6 +73,10 @@ Parar al segundo ciclo aunque quede deuda; reportarla, no seguir.
 
 Nunca asumir que el usuario quiere commit/push aunque la tarea esté terminada — **proponer** y esperar OK explícito.
 
+## Textos para pegar (PR)
+
+Si el usuario pide título/descripción de PR: entregarlos en **bloques de código listos para copiar** (título 1 línea; descripción = markdown completo en un fence). Ver `AGENTS.md` → «Textos para pegar».
+
 ## No hacer (workflow)
 
 - No elegir workarounds (scaffold manual, otra herramienta, copiar desde tmp) sin consultar.

@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 import { AUTH_GENERIC_ERROR, AUTH_NETWORK_ERROR } from "@/lib/auth/messages";
+import { resolvePostAuthDestination } from "@/lib/onboarding/resolve-destination";
 import { createClient } from "@/lib/supabase/client";
 import { credentialsSchema } from "@/lib/validation/schemas/auth";
 
@@ -23,6 +24,19 @@ export function LoginForm({ nextPath }: Props) {
   const [fieldErrors, setFieldErrors] = useState<FieldErrors>({});
   const [formError, setFormError] = useState<string | null>(null);
   const [submitting, setSubmitting] = useState(false);
+
+  async function resolveDestinationAfterAuth(): Promise<string> {
+    try {
+      const response = await fetch("/api/profile");
+      if (!response.ok) {
+        return resolvePostAuthDestination(false, nextPath);
+      }
+      const body = (await response.json()) as { data?: unknown };
+      return resolvePostAuthDestination(body.data != null, nextPath);
+    } catch {
+      return resolvePostAuthDestination(false, nextPath);
+    }
+  }
 
   async function handleAuth(mode: "login" | "signup") {
     setFormError(null);
@@ -55,7 +69,8 @@ export function LoginForm({ nextPath }: Props) {
         return;
       }
 
-      router.replace(nextPath);
+      const destination = await resolveDestinationAfterAuth();
+      router.replace(destination);
       router.refresh();
     } catch {
       setFormError(AUTH_NETWORK_ERROR);

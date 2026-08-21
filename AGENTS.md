@@ -26,6 +26,23 @@ Estas normas viven aquí y en `.cursor/rules/` (`alwaysApply`). **No hace falta*
 
 Al terminar una tarea: **proponer** commit/push y **esperar OK**. Nunca asumir que hay que versionar.
 
+### Textos para pegar (PR, issues, etc.)
+
+Cuando el usuario pida **título y/o descripción** de una PR (u otro texto para pegar en GitHub/UI):
+
+1. **Título** en un bloque de código de una sola línea (listo para copiar).
+2. **Descripción** en un bloque de código con el markdown completo (fence), **sin** texto explicativo dentro del bloque.
+3. Fuera de los bloques: como máximo una frase de contexto.
+4. Plantilla habitual de descripción:
+
+```
+## Summary
+- …
+
+## Test plan
+- [ ] …
+```
+
 ### Calidad al cerrar
 
 Antes de dar **cualquier tarea** por terminada (no solo specs):
