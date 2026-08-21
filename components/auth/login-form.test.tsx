@@ -26,6 +26,10 @@ describe("LoginForm", () => {
     signUp.mockReset();
     replace.mockReset();
     refresh.mockReset();
+    global.fetch = jest.fn().mockResolvedValue({
+      ok: true,
+      json: async () => ({ data: { experience_level: "beginner" } }),
+    });
   });
 
   it("renders email, password, Entrar and Crear cuenta", () => {
@@ -67,7 +71,7 @@ describe("LoginForm", () => {
     expect(replace).not.toHaveBeenCalled();
   });
 
-  it("redirects to nextPath after a successful login", async () => {
+  it("redirects to nextPath after a successful login when a profile exists", async () => {
     signInWithPassword.mockResolvedValue({
       data: { user: { id: "user-1" }, session: {} },
       error: null,
@@ -88,7 +92,33 @@ describe("LoginForm", () => {
         email: "user@example.com",
         password: "secret1",
       });
+      expect(global.fetch).toHaveBeenCalledWith("/api/profile");
       expect(replace).toHaveBeenCalledWith("/");
+    });
+  });
+
+  it("redirects to onboarding after login when there is no profile", async () => {
+    signInWithPassword.mockResolvedValue({
+      data: { user: { id: "user-1" }, session: {} },
+      error: null,
+    });
+    (global.fetch as jest.Mock).mockResolvedValue({
+      ok: true,
+      json: async () => ({ data: null }),
+    });
+
+    render(<LoginForm nextPath="/" />);
+
+    fireEvent.change(screen.getByLabelText(/email/i), {
+      target: { value: "user@example.com" },
+    });
+    fireEvent.change(screen.getByLabelText(/contraseña/i), {
+      target: { value: "secret1" },
+    });
+    fireEvent.click(screen.getByRole("button", { name: /^entrar$/i }));
+
+    await waitFor(() => {
+      expect(replace).toHaveBeenCalledWith("/onboarding");
     });
   });
 });

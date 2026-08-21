@@ -20,7 +20,7 @@ Ejemplos: `001-project-scaffold.md`, `002-auth.md`, `003-profile-schema.md`
 | 002 | [auth](./002-auth.md) | Login/logout, sesión, rutas protegidas (Supabase Auth) | feature | 001 | **implemented** |
 | 003 | [profile-schema](./003-profile-schema.md) | Tabla `profiles`, migración SQL, RLS, esquema Zod (sin UI ni API) | infra | 002 | **implemented** |
 | 004 | [profile-api](./004-profile-api.md) | Route Handlers perfil (`GET`/`POST`/`PATCH`), `requireUser`, Zod | api | 003 | **implemented** |
-| 005 | onboarding-capture | Flujo post-login, formulario, redirect sin perfil; consume API 004 | feature | 004 | pendiente |
+| 005 | [onboarding-capture](./005-onboarding-capture.md) | Flujo post-login, formulario, redirect sin perfil; consume API 004 | feature | 004 | **implemented** |
 | 006 | workout-plan-engine | Generar plan con Gemini, guardar, enlaces LoadMuscle | feature | 005 | pendiente |
 | 007 | session-log | Registrar peso × reps de una sesión | feature | 006 | pendiente |
 | 008 | weekly-iteration | Ajustar el plan según logs y perfil | feature | 007 | pendiente |
@@ -29,7 +29,7 @@ Ejemplos: `001-project-scaffold.md`, `002-auth.md`, `003-profile-schema.md`
 
 Fuera de este índice hasta que **002 + 003 + 004 + 005** funcionen en local: deploy a Vercel (ver ADR-001).
 
-**Siguiente trabajo:** redactar/implementar spec-005 (`onboarding-capture`) cuando el usuario lo pida — UI que consume la API de perfil (004).
+**Siguiente trabajo:** redactar/aprobar e implementar spec-006 (`workout-plan-engine`) cuando toque en el roadmap (`write-spec` → `approved` → `implement-from-spec`).
 
 ## Tamaño de una spec (cuándo dividir)
 

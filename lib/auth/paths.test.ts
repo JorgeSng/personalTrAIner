@@ -31,5 +31,14 @@ describe("resolvePageRedirect", () => {
 
   it("allows protected pages when there is a session", () => {
     expect(resolvePageRedirect({ pathname: "/", hasUser: true })).toBeNull();
+    expect(
+      resolvePageRedirect({ pathname: "/onboarding", hasUser: true }),
+    ).toBeNull();
+  });
+
+  it("redirects /onboarding without a session to login", () => {
+    expect(
+      resolvePageRedirect({ pathname: "/onboarding", hasUser: false }),
+    ).toBe("/login?next=%2Fonboarding");
   });
 });

@@ -2,6 +2,7 @@ import { sanitizeNextPath } from "@/lib/auth/safe-next";
 
 export const LOGIN_PATH = "/login";
 export const HOME_PATH = "/";
+export const ONBOARDING_PATH = "/onboarding";
 
 export function buildLoginRedirect(pathname: string): string {
   const next = sanitizeNextPath(pathname);
