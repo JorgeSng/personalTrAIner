@@ -115,11 +115,15 @@
 3. Spec `003-profile-schema.md` → tabla `profiles`, migración, RLS, Zod (sin UI ni API).
 4. Spec `004-profile-api.md` → Route Handlers perfil, auth, validación Zod.
 5. Spec `005-onboarding-capture.md` → flujo post-login, formulario, consume API 004.
-6. Spec `006-workout-plan-engine.md` → generación de plan + LoadMuscle.
-7. Spec `007-session-log.md` → registro peso × reps.
-8. Spec `008-weekly-iteration.md` → ajuste semanal del plan.
+6. Spec `006-workout-plan-schema.md` → tabla `workout_plans`, RLS, Zod.
+7. Spec `007-workout-plan-api.md` → Gemini + persistir + GET plan activo.
+8. Spec `008-workout-plan-ui.md` → pantalla `/plan` + LoadMuscle links.
+9. Spec `009-session-log.md` → registro peso × reps.
+10. Spec `010-weekly-iteration.md` → ajuste semanal del plan.
 
-Deploy Vercel cuando 002 + 003 + 004 + 005 funcionen en local (perfil completo).
+(Índice vivo en [`docs/specs/README.md`](../specs/README.md). Desglose plan 2026-08-21.)
+
+Deploy Vercel cuando el MVP de plan (006–008) funcione en local.
 
 ## Aprobación
 

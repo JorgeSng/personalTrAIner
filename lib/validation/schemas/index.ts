@@ -7,3 +7,11 @@ export {
   type Profile,
   type ProfilePatch,
 } from "./profile";
+export {
+  workoutPlanContentSchema,
+  workoutPlanDaySchema,
+  workoutPlanExerciseSchema,
+  type WorkoutPlanContent,
+  type WorkoutPlanDay,
+  type WorkoutPlanExercise,
+} from "./workout-plan";
