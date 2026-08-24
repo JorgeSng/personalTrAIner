@@ -90,6 +90,42 @@ VALUES (
 
 No uses `SUPABASE_SERVICE_ROLE_KEY` para estas pruebas; la verificación debe reflejar el acceso real del cliente autenticado.
 
+## Plan de entrenamiento (SPEC-006)
+
+Tabla `public.workout_plans` (historial por usuario; como máximo un plan `active`). El JSON de `content` se valida en app con `workoutPlanContentSchema` (Zod). Sin filas = aún no se ha generado plan (UI en SPEC-008).
+
+### Aplicar migración
+
+1. Abre [Supabase Dashboard](https://supabase.com/dashboard) → tu proyecto → **SQL Editor**.
+2. Copia y ejecuta el contenido de [`supabase/migrations/20260824120000_create_workout_plans.sql`](./supabase/migrations/20260824120000_create_workout_plans.sql) (después de haber aplicado la migración de `profiles`).
+3. Comprueba en **Table Editor** que existe `workout_plans` con `status`, `week_label`, `content` y timestamps.
+
+Si el proyecto tiene desactivado «Automatically expose new tables», el `GRANT` de la migración es necesario para que la API vea la tabla.
+
+### Verificar RLS e índice activo (manual)
+
+Con un usuario autenticado (sesión activa):
+
+1. Comprueba que no hay filas (estado válido):
+
+```sql
+SELECT * FROM public.workout_plans WHERE user_id = auth.uid();
+```
+
+2. Inserta un plan activo (sustituye el JSON de ejemplo si hace falta):
+
+```sql
+INSERT INTO public.workout_plans (user_id, status, week_label, content)
+VALUES (
+  auth.uid(),
+  'active',
+  'Semana 1',
+  '{"week_label":"Semana 1","days":[{"day_index":1,"exercises":[{"name":"Press banca","sets":3,"reps":"8-12"}]}]}'::jsonb
+);
+```
+
+3. Un segundo `INSERT` con `status = 'active'` para el mismo usuario debe fallar por el índice único parcial. Marca el anterior como `superseded` antes de insertar otro activo (flujo de SPEC-007).
+
 ## Variables de entorno
 
 Ver [.env.example](./.env.example).
