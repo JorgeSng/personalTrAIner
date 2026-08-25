@@ -31,12 +31,13 @@ Abre [http://localhost:3000](http://localhost:3000). Sin sesión te redirige a `
 | `npm test` | Jest (unit + smoke) |
 | `npm run lint` | ESLint |
 
-## API (scaffold)
+## API
 
 | Método | Ruta | Descripción |
 |---|---|---|
 | GET | `/api/health` | Estado del servicio e integraciones |
-| POST | `/api/plan/generate` | Stub de generación de plan (mock sin `GEMINI_API_KEY`) |
+| GET | `/api/plan` | Plan activo del usuario (`data: null` si aún no hay) |
+| POST | `/api/plan/generate` | Genera plan con Gemini, valida Zod y persiste como `active` |
 
 ## Autenticación (local)
 
@@ -49,7 +50,7 @@ Supabase Auth (email + password). Las tablas futuras usarán `auth.uid()` (RLS).
 3. Crear el usuario desde `/login` → **Crear cuenta**, o a mano en Authentication → Users.
 4. Rellenar `NEXT_PUBLIC_SUPABASE_URL` y `NEXT_PUBLIC_SUPABASE_ANON_KEY` en `.env.local`. No hace falta service role.
 
-`GET /api/health` es público. El resto de páginas y `POST /api/plan/generate` exigen sesión.
+`GET /api/health` es público. El resto de páginas y las APIs de producto (`/api/plan`, `/api/profile`, …) exigen sesión. Sin `GEMINI_API_KEY`, `POST /api/plan/generate` responde `503 GEMINI_NOT_CONFIGURED` (no hay stub de éxito).
 
 ## Perfil (SPEC-003)
 
@@ -125,6 +126,15 @@ VALUES (
 ```
 
 3. Un segundo `INSERT` con `status = 'active'` para el mismo usuario debe fallar por el índice único parcial. Marca el anterior como `superseded` antes de insertar otro activo (flujo de SPEC-007).
+
+## Generación de plan (SPEC-007)
+
+Con sesión + perfil + `GEMINI_API_KEY`:
+
+1. `POST /api/plan/generate` (body vacío o `{}`) genera el plan con Gemini, valida `workoutPlanContentSchema`, exige `days.length === training_days_per_week`, supersedea el `active` previo e inserta el nuevo.
+2. `GET /api/plan` devuelve el plan `active` o `{ data: null }`.
+
+Sin perfil → `404 PROFILE_REQUIRED`. Sin key → `503 GEMINI_NOT_CONFIGURED`. UI en SPEC-008.
 
 ## Variables de entorno
 

@@ -22,7 +22,7 @@ Ejemplos: `001-project-scaffold.md`, `002-auth.md`, `003-profile-schema.md`
 | 004 | [profile-api](./004-profile-api.md) | Route Handlers perfil (`GET`/`POST`/`PATCH`), `requireUser`, Zod | api | 003 | **implemented** |
 | 005 | [onboarding-capture](./005-onboarding-capture.md) | Flujo post-login, formulario, redirect sin perfil; consume API 004 | feature | 004 | **implemented** |
 | 006 | [workout-plan-schema](./006-workout-plan-schema.md) | Tabla `workout_plans`, RLS, Zod del contenido del plan | infra | 005 | **implemented** |
-| 007 | [workout-plan-api](./007-workout-plan-api.md) | Generar plan con Gemini, validar Zod, persistir; GET plan activo | api | 006 | **draft** |
+| 007 | [workout-plan-api](./007-workout-plan-api.md) | Generar plan con Gemini, validar Zod, persistir; GET plan activo | api | 006 | **implemented** |
 | 008 | [workout-plan-ui](./008-workout-plan-ui.md) | Pantalla `/plan`, generar/regenerar, enlaces LoadMuscle | feature | 007 | **draft** |
 | 009 | session-log | Registrar peso × reps de una sesión | feature | 008 | pendiente |
 | 010 | weekly-iteration | Ajustar el plan según logs y perfil | feature | 009 | pendiente |
@@ -34,7 +34,7 @@ Ejemplos: `001-project-scaffold.md`, `002-auth.md`, `003-profile-schema.md`
 
 Fuera de este índice hasta que el MVP de plan funcione en local (006–008): deploy a Vercel (ver ADR-001).
 
-**Siguiente trabajo:** revisar/aprobar spec-007 (`007-workout-plan-api.md`) y luego implementar con `implement-from-spec`. Spec-008 permanece `draft` hasta su turno.
+**Siguiente trabajo:** revisar/aprobar spec-008 (`008-workout-plan-ui.md`) e implementarla cuando el usuario lo pida.
 
 ## Tamaño de una spec (cuándo dividir)
 
