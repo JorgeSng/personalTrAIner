@@ -94,6 +94,12 @@ describe("generateWorkoutPlanJson", () => {
     expect(prompt).toContain("3");
     expect(prompt).toContain("dumbbells");
     expect(prompt).toContain("rodilla izquierda");
+    expect(prompt).toMatch(/Spanish/i);
+    expect(prompt).toContain("rest_between_sets_sec");
+    expect(prompt).toContain("rest_after_exercise_sec");
+    expect(prompt).toMatch(/Do NOT invent loadmuscle_url/i);
+    expect(prompt).toContain("prefer these exact Spanish names");
+    expect(prompt).toContain("sentadilla goblet");
     expect(GoogleGenerativeAIMock).toHaveBeenCalledWith("test-key");
   });
 

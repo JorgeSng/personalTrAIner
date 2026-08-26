@@ -2,7 +2,7 @@
 
 | Campo | Valor |
 |---|---|
-| **Estado** | approved |
+| **Estado** | implemented |
 | **Tipo** | feature |
 | **Fecha** | 2026-08-26 |
 | **Supersede** | — |
@@ -122,15 +122,15 @@ Sin tablas nuevas. Extiende la forma Zod de `content` (006) en `workoutPlanConte
 
 ## Criterios de aceptación
 
-- [ ] Extensión Zod: `rest_between_sets_sec` y `rest_after_exercise_sec` requeridos (≥ 0) en ejercicios; tests Zod actualizados.
-- [ ] Prompt Gemini exige contenido en español y los campos de descanso.
-- [ ] Pipeline generate: coerce URLs + enrich desde catálogo (D1); sin scrapeo; URLs inventadas fuera de whitelist/catálogo → `null`.
-- [ ] Catálogo en repo con entradas MVP suficientes y aliases para match ES/EN.
-- [ ] UI `/plan` muestra descansos en ES; «Ver técnica» cuando hay URL https tras enrich.
-- [ ] Plan legacy sin campos nuevos no rompe la UI; regenerar aplica 009.
-- [ ] Tests Jest: match/enrich catálogo; parse/Zod con fixture ES + descansos; RTL de listado con descansos (y técnica si URL).
-- [ ] No se tocaron archivos fuera de schema Zod plan, `lib/ai`/`lib/plans`, UI plan, tests y docs de esta spec (y roadmap).
-- [ ] Roadmap README: 009 = esta spec; 010 session-log; 011 weekly-iteration.
+- [x] Extensión Zod: `rest_between_sets_sec` y `rest_after_exercise_sec` requeridos (≥ 0) en ejercicios; tests Zod actualizados.
+- [x] Prompt Gemini exige contenido en español y los campos de descanso.
+- [x] Pipeline generate: coerce URLs + enrich desde catálogo (D1); sin scrapeo; URLs inventadas fuera de whitelist/catálogo → `null`.
+- [x] Catálogo en repo con entradas MVP suficientes y aliases para match ES/EN.
+- [x] UI `/plan` muestra descansos en ES; «Ver técnica» cuando hay URL https tras enrich.
+- [x] Plan legacy sin campos nuevos no rompe la UI; regenerar aplica 009.
+- [x] Tests Jest: match/enrich catálogo; parse/Zod con fixture ES + descansos; RTL de listado con descansos (y técnica si URL).
+- [x] No se tocaron archivos fuera de schema Zod plan, `lib/ai`/`lib/plans`, UI plan, tests y docs de esta spec (y roadmap).
+- [x] Roadmap README: 009 = esta spec; 010 session-log; 011 weekly-iteration.
 - [ ] _(Opcional)_ PR enlaza a esta spec.
 
 ## Plan de implementación
@@ -144,5 +144,17 @@ Sin tablas nuevas. Extiende la forma Zod de `content` (006) en `workoutPlanConte
 
 ## Notas de implementación
 
-- **Aprobada** por el usuario 2026-08-26 (D1–D6). Pendiente `implement-from-spec` cuando lo pida.
-- _Rellenar archivos/desviaciones al pasar a `implemented`._
+- Implementado 2026-08-26 con `implement-from-spec`.
+- **Archivos:**
+  - `lib/validation/schemas/workout-plan.ts` — `rest_between_sets_sec` / `rest_after_exercise_sec` requeridos.
+  - `lib/plans/loadmuscle-catalog.ts` — catálogo curado (solo URLs verificadas) + aliases ES/EN; resolución **exacta** por nombre.
+  - `lib/plans/enrich-loadmuscle-urls.ts` — D1: URL curada → keep; else match exacto catálogo; else `null`. Descarta slugs LoadMuscle no curados.
+  - `lib/plans/format-rest-seconds.ts` — copy legible (`90 s`, `2 min`).
+  - `lib/plans/parse-plan-content.ts` — orden coerce → enrich → Zod.
+  - `lib/ai/gemini.ts` — ES + descansos + lista de nombres preferidos del catálogo.
+  - `lib/plans/generate-and-persist.ts` — si tras enrich faltan URLs, reintento correctivo con nombres del catálogo (opción 3).
+  - `components/plan/plan-days.tsx` — muestra descansos; degrada si faltan (legacy).
+- **UX descanso:** si `rest_after_exercise_sec === 0` (p. ej. último del día), se **oculta** «Descanso hasta el siguiente».
+- **Mejora post-MVP (2026-08-26):** cobertura LoadMuscle — aliases exactos + prompt/reintento con nombres del catálogo.
+- **Corrección (2026-08-26):** se eliminaron slugs inventados que devolvían soft-404. El catálogo solo incluye URLs verificadas (`…: Exercise Guide | LoadMuscle`). Match **solo exacto** por alias; URLs `loadmuscle.com` no curadas se descartan. Preferible «Técnica pendiente» a un enlace incorrecto. Sin match flexible/best-effort.
+- Roadmap README: 009 → implemented; 010/011 sin cambio de numeración.

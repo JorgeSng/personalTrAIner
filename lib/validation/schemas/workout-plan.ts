@@ -13,6 +13,8 @@ export const workoutPlanExerciseSchema = z
     sets: z.number().int().min(1),
     reps: z.string().min(1),
     notes: z.string().optional(),
+    rest_between_sets_sec: z.number().int().min(0),
+    rest_after_exercise_sec: z.number().int().min(0),
     loadmuscle_url: httpsUrlSchema.nullable().optional(),
   })
   .strip();

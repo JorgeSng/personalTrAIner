@@ -34,7 +34,15 @@ const planRow = {
     days: [
       {
         day_index: 1,
-        exercises: [{ name: "Press", sets: 3, reps: "8-12" }],
+        exercises: [
+          {
+            name: "Press",
+            sets: 3,
+            reps: "8-12",
+            rest_between_sets_sec: 90,
+            rest_after_exercise_sec: 0,
+          },
+        ],
       },
     ],
   },

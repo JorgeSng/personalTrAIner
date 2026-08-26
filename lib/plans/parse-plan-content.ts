@@ -1,4 +1,5 @@
 import { coerceLoadmuscleUrls } from "@/lib/plans/coerce-loadmuscle-urls";
+import { enrichLoadmuscleUrls } from "@/lib/plans/enrich-loadmuscle-urls";
 import {
   workoutPlanContentSchema,
   type WorkoutPlanContent,
@@ -13,7 +14,8 @@ export function parsePlanContent(
   trainingDaysPerWeek: number,
 ): ParsePlanContentResult {
   const coerced = coerceLoadmuscleUrls(raw);
-  const parsed = workoutPlanContentSchema.safeParse(coerced);
+  const enriched = enrichLoadmuscleUrls(coerced);
+  const parsed = workoutPlanContentSchema.safeParse(enriched);
 
   if (!parsed.success) {
     return {

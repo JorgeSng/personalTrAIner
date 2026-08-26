@@ -53,7 +53,15 @@ const planFixture: PlanRow = {
       {
         day_index: 1,
         label: "Full body",
-        exercises: [{ name: "Sentadilla", sets: 3, reps: "8" }],
+        exercises: [
+          {
+            name: "Sentadilla",
+            sets: 3,
+            reps: "8",
+            rest_between_sets_sec: 120,
+            rest_after_exercise_sec: 0,
+          },
+        ],
       },
     ],
   },

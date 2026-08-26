@@ -4,6 +4,8 @@ const validExercise = {
   name: "Press banca",
   sets: 3,
   reps: "8-12",
+  rest_between_sets_sec: 90,
+  rest_after_exercise_sec: 120,
 };
 
 const validDay = {
@@ -220,6 +222,78 @@ describe("workoutPlanContentSchema", () => {
       }).success,
     ).toBe(true);
     expect(workoutPlanContentSchema.safeParse(validContent).success).toBe(true);
+  });
+
+  it("requires rest_between_sets_sec and rest_after_exercise_sec as int >= 0", () => {
+    expect(
+      workoutPlanContentSchema.safeParse({
+        ...validContent,
+        days: [
+          {
+            ...validDay,
+            exercises: [
+              {
+                ...validExercise,
+                rest_between_sets_sec: 0,
+                rest_after_exercise_sec: 0,
+              },
+            ],
+          },
+        ],
+      }).success,
+    ).toBe(true);
+
+    expect(
+      workoutPlanContentSchema.safeParse({
+        ...validContent,
+        days: [
+          {
+            ...validDay,
+            exercises: [
+              {
+                name: "Press",
+                sets: 3,
+                reps: "8",
+              },
+            ],
+          },
+        ],
+      }).success,
+    ).toBe(false);
+
+    expect(
+      workoutPlanContentSchema.safeParse({
+        ...validContent,
+        days: [
+          {
+            ...validDay,
+            exercises: [
+              {
+                ...validExercise,
+                rest_between_sets_sec: -1,
+              },
+            ],
+          },
+        ],
+      }).success,
+    ).toBe(false);
+
+    expect(
+      workoutPlanContentSchema.safeParse({
+        ...validContent,
+        days: [
+          {
+            ...validDay,
+            exercises: [
+              {
+                ...validExercise,
+                rest_after_exercise_sec: 1.5,
+              },
+            ],
+          },
+        ],
+      }).success,
+    ).toBe(false);
   });
 
   it("rejects a non-https loadmuscle_url", () => {

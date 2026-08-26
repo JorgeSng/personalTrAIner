@@ -1,5 +1,9 @@
 import { generateWorkoutPlanJson } from "@/lib/ai/gemini";
 import { HttpError } from "@/lib/errors/http-error";
+import {
+  getPreferredCatalogExerciseNames,
+  planHasMissingLoadmuscleUrl,
+} from "@/lib/plans/loadmuscle-catalog";
 import { parsePlanContent } from "@/lib/plans/parse-plan-content";
 import type { PlanGenerationProfile, PlanRow } from "@/lib/plans/types";
 import { createClient } from "@/lib/supabase/server";
@@ -111,38 +115,66 @@ async function persistWithRetry(
   }
 }
 
+function buildSchemaCorrectiveHint(
+  profile: PlanGenerationProfile,
+  reason: string,
+): string {
+  return [
+    `The previous JSON was invalid: ${reason}`,
+    `Return valid JSON with exactly ${profile.training_days_per_week} days.`,
+    "Each day needs at least one exercise with name, sets (int), reps (string),",
+    "rest_between_sets_sec (int >= 0), and rest_after_exercise_sec (int >= 0).",
+    "All visible strings (week_label, labels, names, notes) must be in Spanish.",
+    "loadmuscle_url must be an https LoadMuscle URL or null; do not invent URLs.",
+  ].join(" ");
+}
+
+function buildCatalogNamesCorrectiveHint(): string {
+  return [
+    "Some exercise names could not be matched to LoadMuscle technique links.",
+    "Rename each exercise to the closest equivalent from this preferred list (use the exact wording when possible):",
+    getPreferredCatalogExerciseNames().join("; "),
+    "Keep Spanish labels/notes and required rest fields. Prefer null for loadmuscle_url; do not invent URLs.",
+  ].join(" ");
+}
+
 async function generateValidatedContent(
   profile: PlanGenerationProfile,
 ): Promise<WorkoutPlanContent> {
   const firstRaw = await generateWorkoutPlanJson(profile);
-  const firstParsed = parsePlanContent(firstRaw, profile.training_days_per_week);
+  let parsed = parsePlanContent(firstRaw, profile.training_days_per_week);
 
-  if (firstParsed.ok) {
-    return firstParsed.data;
+  if (!parsed.ok) {
+    const secondRaw = await generateWorkoutPlanJson(profile, {
+      correctiveHint: buildSchemaCorrectiveHint(profile, parsed.reason),
+    });
+    parsed = parsePlanContent(secondRaw, profile.training_days_per_week);
+
+    if (!parsed.ok) {
+      throw new HttpError(
+        502,
+        "GEMINI_INVALID_PLAN",
+        "Gemini returned an invalid workout plan after retry.",
+      );
+    }
   }
 
-  const correctiveHint = [
-    `The previous JSON was invalid: ${firstParsed.reason}`,
-    `Return valid JSON with exactly ${profile.training_days_per_week} days.`,
-    "Each day needs at least one exercise with name, sets (int), and reps (string).",
-    "loadmuscle_url must be an https URL or null.",
-  ].join(" ");
+  // Opción 3: si tras exacto+flexible aún faltan URLs, reintentar con nombres del catálogo.
+  if (planHasMissingLoadmuscleUrl(parsed.data)) {
+    const catalogRaw = await generateWorkoutPlanJson(profile, {
+      correctiveHint: buildCatalogNamesCorrectiveHint(),
+    });
+    const catalogParsed = parsePlanContent(
+      catalogRaw,
+      profile.training_days_per_week,
+    );
 
-  const secondRaw = await generateWorkoutPlanJson(profile, { correctiveHint });
-  const secondParsed = parsePlanContent(
-    secondRaw,
-    profile.training_days_per_week,
-  );
-
-  if (secondParsed.ok) {
-    return secondParsed.data;
+    if (catalogParsed.ok) {
+      return catalogParsed.data;
+    }
   }
 
-  throw new HttpError(
-    502,
-    "GEMINI_INVALID_PLAN",
-    "Gemini returned an invalid workout plan after retry.",
-  );
+  return parsed.data;
 }
 
 export async function generateAndPersistPlan(userId: string): Promise<PlanRow> {
