@@ -49,6 +49,10 @@ describe("Home page", () => {
 
     expect(screen.getByRole("heading", { name: /personalTrAIner/i })).toBeInTheDocument();
     expect(screen.getByText(/sesión iniciada/i)).toBeInTheDocument();
+    expect(screen.getByRole("link", { name: /ver mi plan/i })).toHaveAttribute(
+      "href",
+      "/plan",
+    );
   });
 
   it("redirects authenticated users without a profile to onboarding", async () => {

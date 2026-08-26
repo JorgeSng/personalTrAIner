@@ -23,18 +23,19 @@ Ejemplos: `001-project-scaffold.md`, `002-auth.md`, `003-profile-schema.md`
 | 005 | [onboarding-capture](./005-onboarding-capture.md) | Flujo post-login, formulario, redirect sin perfil; consume API 004 | feature | 004 | **implemented** |
 | 006 | [workout-plan-schema](./006-workout-plan-schema.md) | Tabla `workout_plans`, RLS, Zod del contenido del plan | infra | 005 | **implemented** |
 | 007 | [workout-plan-api](./007-workout-plan-api.md) | Generar plan con Gemini, validar Zod, persistir; GET plan activo | api | 006 | **implemented** |
-| 008 | [workout-plan-ui](./008-workout-plan-ui.md) | Pantalla `/plan`, generar/regenerar, enlaces LoadMuscle | feature | 007 | **draft** |
-| 009 | session-log | Registrar peso × reps de una sesión | feature | 008 | pendiente |
-| 010 | weekly-iteration | Ajustar el plan según logs y perfil | feature | 009 | pendiente |
+| 008 | [workout-plan-ui](./008-workout-plan-ui.md) | Pantalla `/plan`, generar/regenerar, enlaces LoadMuscle | feature | 007 | **implemented** |
+| 009 | [workout-plan-quality](./009-workout-plan-quality.md) | Catálogo LoadMuscle, descansos, contenido del plan en español | feature | 008 | **approved** |
+| 010 | session-log | Registrar peso × reps de una sesión | feature | 009 | pendiente |
+| 011 | weekly-iteration | Ajustar el plan según logs y perfil | feature | 010 | pendiente |
 
 **Histórico:**
 
 - El bloque «onboarding + perfil» era una sola spec `003-onboarding-profile`. Desglosado en **003 + 004 + 005** (2026-08-17): datos → API → UI.
-- El bloque «workout-plan-engine» era una sola fila 006. Desglosado en **006 + 007 + 008** (2026-08-21): schema → API/Gemini → UI. `session-log` y `weekly-iteration` pasan a **009** y **010**.
+- El bloque «workout-plan-engine» era una sola fila 006. Desglosado en **006 + 007 + 008** (2026-08-21): schema → API/Gemini → UI. `session-log` y `weekly-iteration` eran **009** y **010**; desde 2026-08-26 pasan a **010** y **011** al insertar **009 workout-plan-quality** (LoadMuscle curado + descansos + ES).
 
-Fuera de este índice hasta que el MVP de plan funcione en local (006–008): deploy a Vercel (ver ADR-001).
+Fuera de este índice hasta que el MVP de plan (006–009) funcione en local: deploy a Vercel (ver ADR-001).
 
-**Siguiente trabajo:** revisar/aprobar spec-008 (`008-workout-plan-ui.md`) e implementarla cuando el usuario lo pida.
+**Siguiente trabajo:** implementar spec-009 (`009-workout-plan-quality.md`) cuando el usuario lo pida (`implement-from-spec`).
 
 ## Tamaño de una spec (cuándo dividir)
 
@@ -64,13 +65,14 @@ Preferir **varias specs pequeñas** en cadena antes que una spec grande con much
 | Datos | 006 | Existe `workout_plans` con RLS y Zod del `content` |
 | API | 007 | Generar (Gemini) + persistir; `GET` plan activo |
 | UI | 008 | Usuario ve/genera plan en `/plan` con enlaces LoadMuscle |
+| Calidad | 009 | Catálogo LoadMuscle + descansos + contenido en español |
 
 **Cómo dividir:**
 
 1. Actualizar esta tabla en `README.md` (nuevas filas NNN, dependencias, tipos).
 2. Anotar spec antigua → `superseded` + enlace a las nuevas (si existía draft).
 3. Redactar **cada** spec con `write-spec`; no implementar hasta `approved` en la activa.
-4. Respetar **orden de dependencias**: 003 → 004 → 005; 006 → 007 → 008.
+4. Respetar **orden de dependencias**: 003 → 004 → 005; 006 → 007 → 008 → 009.
 
 **No dividir** en exceso: typos, un solo componente, o un fix acotado no necesitan spec nueva.
 
@@ -122,8 +124,8 @@ Ver [`_template.md`](./_template.md) — formato híbrido (producto + contrato A
 
 ```
 002 auth → 003 schema → 004 profile-api → 005 onboarding
-  → 006 plan-schema → 007 plan-api → 008 plan-ui
-  → 009 logs → 010 iteración
+  → 006 plan-schema → 007 plan-api → 008 plan-ui → 009 plan-quality
+  → 010 logs → 011 iteración
 ```
 
 - **003:** columnas, migración, RLS, Zod — sin HTTP ni pantallas.
@@ -132,4 +134,5 @@ Ver [`_template.md`](./_template.md) — formato híbrido (producto + contrato A
 - **006:** tabla `workout_plans` + Zod del JSON del plan — sin HTTP ni pantallas.
 - **007:** Gemini → Zod → persistir; `GET` plan activo; lee perfil (004/capa server).
 - **008:** UX `/plan`; consume 007; enlaces LoadMuscle (URLs en JSON).
-- **009+:** logs e iteración; no redefinir campos de perfil en AGENTS.md.
+- **009:** calidad del plan — catálogo LoadMuscle, descansos, contenido ES.
+- **010+:** logs e iteración; no redefinir campos de perfil en AGENTS.md.

@@ -8,12 +8,16 @@ jest.mock("@/components/auth/logout-button", () => ({
 }));
 
 describe("HomeShell", () => {
-  it("shows the session email and logout control", () => {
+  it("shows the session email, plan link and logout control", () => {
     render(<HomeShell email="user@example.com" />);
 
     expect(screen.getByRole("heading", { name: /personalTrAIner/i })).toBeInTheDocument();
     expect(screen.getByText(/sesión iniciada/i)).toBeInTheDocument();
     expect(screen.getByText("user@example.com")).toBeInTheDocument();
+    expect(screen.getByRole("link", { name: /ver mi plan/i })).toHaveAttribute(
+      "href",
+      "/plan",
+    );
     expect(screen.getByRole("button", { name: /cerrar sesión/i })).toBeInTheDocument();
   });
 });

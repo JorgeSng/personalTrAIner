@@ -123,7 +123,7 @@ GRANT SELECT, INSERT, UPDATE ON public.workout_plans TO authenticated;
 
 - Route Handlers / Gemini / regeneración (007).
 - UI `/plan` y enlaces «Ver técnica» (008).
-- Session log (009), weekly iteration (010).
+- Session log (010), weekly iteration (011).
 - Dietas / calorías.
 - Catálogo curado LoadMuscle o scrapeo.
 - Cambios a `profiles` (003/004/005).

@@ -137,7 +137,7 @@ Sin tablas nuevas. Usa:
 - UI `/plan` y CTAs (008).
 - Edición manual / `PATCH` / `DELETE` de plan.
 - Listado de histórico `superseded` (solo activo en GET).
-- Session log (009), weekly iteration (010).
+- Session log (010), weekly iteration (011).
 - Cambios de schema SQL/Zod de 006 (salvo bug bloqueante → actualizar 006 primero).
 - Deploy Vercel.
 - Catálogo curado LoadMuscle o scrapeo.

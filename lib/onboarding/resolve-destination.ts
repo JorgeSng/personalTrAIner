@@ -1,4 +1,4 @@
-import { HOME_PATH, ONBOARDING_PATH } from "@/lib/auth/paths";
+import { HOME_PATH, ONBOARDING_PATH, PLAN_PATH } from "@/lib/auth/paths";
 import { sanitizeNextPath } from "@/lib/auth/safe-next";
 
 export function resolvePostAuthDestination(
@@ -18,7 +18,7 @@ export function resolveProfileGateRedirect(input: {
 }): string | null {
   const { pathname, hasProfile } = input;
 
-  if (!hasProfile && pathname === HOME_PATH) {
+  if (!hasProfile && (pathname === HOME_PATH || pathname === PLAN_PATH)) {
     return ONBOARDING_PATH;
   }
 

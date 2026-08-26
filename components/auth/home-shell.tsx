@@ -1,4 +1,5 @@
 import { LogoutButton } from "@/components/auth/logout-button";
+import { PLAN_PATH } from "@/lib/auth/paths";
 
 type Props = {
   email: string;
@@ -15,6 +16,12 @@ export function HomeShell({ email }: Props) {
         <p className="mt-3 text-lg text-zinc-600">Sesión iniciada</p>
         <p className="mt-1 text-sm text-zinc-700">{email}</p>
       </div>
+      <a
+        href={PLAN_PATH}
+        className="text-sm font-medium text-zinc-800 underline underline-offset-2 hover:text-zinc-950"
+      >
+        Ver mi plan
+      </a>
       <LogoutButton />
     </main>
   );
