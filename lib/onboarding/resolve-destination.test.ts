@@ -26,6 +26,12 @@ describe("resolveProfileGateRedirect", () => {
     ).toBe("/onboarding");
   });
 
+  it("sends users without a profile away from /plan to onboarding", () => {
+    expect(
+      resolveProfileGateRedirect({ pathname: "/plan", hasProfile: false }),
+    ).toBe("/onboarding");
+  });
+
   it("sends users with a profile away from onboarding to home", () => {
     expect(
       resolveProfileGateRedirect({
@@ -38,6 +44,9 @@ describe("resolveProfileGateRedirect", () => {
   it("does not redirect when the gate does not apply", () => {
     expect(
       resolveProfileGateRedirect({ pathname: "/", hasProfile: true }),
+    ).toBeNull();
+    expect(
+      resolveProfileGateRedirect({ pathname: "/plan", hasProfile: true }),
     ).toBeNull();
     expect(
       resolveProfileGateRedirect({

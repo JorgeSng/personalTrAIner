@@ -34,11 +34,18 @@ describe("resolvePageRedirect", () => {
     expect(
       resolvePageRedirect({ pathname: "/onboarding", hasUser: true }),
     ).toBeNull();
+    expect(resolvePageRedirect({ pathname: "/plan", hasUser: true })).toBeNull();
   });
 
   it("redirects /onboarding without a session to login", () => {
     expect(
       resolvePageRedirect({ pathname: "/onboarding", hasUser: false }),
     ).toBe("/login?next=%2Fonboarding");
+  });
+
+  it("redirects /plan without a session to login", () => {
+    expect(resolvePageRedirect({ pathname: "/plan", hasUser: false })).toBe(
+      "/login?next=%2Fplan",
+    );
   });
 });
