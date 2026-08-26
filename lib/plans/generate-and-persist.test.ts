@@ -32,15 +32,39 @@ const validPlanJson = {
   days: [
     {
       day_index: 1,
-      exercises: [{ name: "Press", sets: 3, reps: "8-12" }],
+      exercises: [
+        {
+          name: "Press banca con mancuernas",
+          sets: 3,
+          reps: "8-12",
+          rest_between_sets_sec: 90,
+          rest_after_exercise_sec: 120,
+        },
+      ],
     },
     {
       day_index: 2,
-      exercises: [{ name: "Remo", sets: 3, reps: "10" }],
+      exercises: [
+        {
+          name: "Remo con mancuerna",
+          sets: 3,
+          reps: "10",
+          rest_between_sets_sec: 90,
+          rest_after_exercise_sec: 0,
+        },
+      ],
     },
     {
       day_index: 3,
-      exercises: [{ name: "Sentadilla", sets: 3, reps: "8" }],
+      exercises: [
+        {
+          name: "Sentadilla goblet",
+          sets: 3,
+          reps: "8",
+          rest_between_sets_sec: 120,
+          rest_after_exercise_sec: 0,
+        },
+      ],
     },
   ],
 };
@@ -178,7 +202,53 @@ describe("generateAndPersistPlan", () => {
       user_id: "user-1",
       status: "active",
       week_label: "Semana 1",
-      content: validPlanJson,
+      content: {
+        week_label: "Semana 1",
+        days: [
+          {
+            day_index: 1,
+            exercises: [
+              {
+                name: "Press banca con mancuernas",
+                sets: 3,
+                reps: "8-12",
+                rest_between_sets_sec: 90,
+                rest_after_exercise_sec: 120,
+                loadmuscle_url:
+                  "https://loadmuscle.com/exercises/dumbbell-bench-press",
+              },
+            ],
+          },
+          {
+            day_index: 2,
+            exercises: [
+              {
+                name: "Remo con mancuerna",
+                sets: 3,
+                reps: "10",
+                rest_between_sets_sec: 90,
+                rest_after_exercise_sec: 0,
+                loadmuscle_url:
+                  "https://loadmuscle.com/exercises/dumbbell-one-arm-row-rack-support",
+              },
+            ],
+          },
+          {
+            day_index: 3,
+            exercises: [
+              {
+                name: "Sentadilla goblet",
+                sets: 3,
+                reps: "8",
+                rest_between_sets_sec: 120,
+                rest_after_exercise_sec: 0,
+                loadmuscle_url:
+                  "https://loadmuscle.com/exercises/dumbbell-goblet-squat",
+              },
+            ],
+          },
+        ],
+      },
     });
   });
 
@@ -200,6 +270,44 @@ describe("generateAndPersistPlan", () => {
     expect(generateWorkoutPlanJsonMock).toHaveBeenCalledTimes(2);
     expect(generateWorkoutPlanJsonMock.mock.calls[1][1]?.correctiveHint).toEqual(
       expect.stringMatching(/3/),
+    );
+  });
+
+  it("retries with catalog names when technique URLs are still missing", async () => {
+    mockSupabase({
+      profile: { data: profileRow, error: null },
+      insert: { data: planRow, error: null },
+    });
+
+    const unmatchedPlan = {
+      week_label: "Semana 1",
+      days: [
+        {
+          day_index: 1,
+          exercises: [
+            {
+              name: "Movimiento inventado XYZ",
+              sets: 3,
+              reps: "8",
+              rest_between_sets_sec: 60,
+              rest_after_exercise_sec: 0,
+            },
+          ],
+        },
+        validPlanJson.days[1],
+        validPlanJson.days[2],
+      ],
+    };
+
+    generateWorkoutPlanJsonMock
+      .mockResolvedValueOnce(unmatchedPlan)
+      .mockResolvedValueOnce(validPlanJson);
+
+    await generateAndPersistPlan("user-1");
+
+    expect(generateWorkoutPlanJsonMock).toHaveBeenCalledTimes(2);
+    expect(generateWorkoutPlanJsonMock.mock.calls[1][1]?.correctiveHint).toEqual(
+      expect.stringMatching(/preferred list/i),
     );
   });
 
