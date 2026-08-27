@@ -15,3 +15,11 @@ export {
   type WorkoutPlanDay,
   type WorkoutPlanExercise,
 } from "./workout-plan";
+export {
+  workoutSessionCreateSchema,
+  workoutSessionExerciseSchema,
+  workoutSessionSchema,
+  type WorkoutSession,
+  type WorkoutSessionCreate,
+  type WorkoutSessionExercise,
+} from "./workout-session";

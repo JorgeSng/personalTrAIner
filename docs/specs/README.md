@@ -25,7 +25,7 @@ Ejemplos: `001-project-scaffold.md`, `002-auth.md`, `003-profile-schema.md`
 | 007 | [workout-plan-api](./007-workout-plan-api.md) | Generar plan con Gemini, validar Zod, persistir; GET plan activo | api | 006 | **implemented** |
 | 008 | [workout-plan-ui](./008-workout-plan-ui.md) | Pantalla `/plan`, generar/regenerar, enlaces LoadMuscle | feature | 007 | **implemented** |
 | 009 | [workout-plan-quality](./009-workout-plan-quality.md) | Catálogo LoadMuscle, descansos, contenido del plan en español | feature | 008 | **implemented** |
-| 010 | [session-log-schema](./010-session-log-schema.md) | Tablas de sesión + ejercicios logueados, RLS, Zod (sin UI ni API) | infra | 009 | **approved** |
+| 010 | [session-log-schema](./010-session-log-schema.md) | Tablas de sesión + ejercicios logueados, RLS, Zod (sin UI ni API) | infra | 009 | **implemented** |
 | 011 | session-log-api | Route Handlers para crear/leer logs de sesión | api | 010 | pendiente |
 | 012 | session-log-ui | Registrar sesión desde `/plan` (peso × reps por ejercicio) | feature | 011 | pendiente |
 | 013 | weekly-iteration | Ajustar el plan según logs y perfil | feature | 012 | pendiente |
@@ -38,7 +38,7 @@ Ejemplos: `001-project-scaffold.md`, `002-auth.md`, `003-profile-schema.md`
 
 Fuera de este índice hasta que el MVP de plan (006–009) funcione en local: deploy a Vercel (ver ADR-001).
 
-**Siguiente trabajo:** implementar spec-010 (`010-session-log-schema.md`) cuando el usuario lo pida (`implement-from-spec`).
+**Siguiente trabajo:** redactar/aprobar e implementar spec-011 (`session-log-api`) cuando el usuario lo pida.
 
 ## Tamaño de una spec (cuándo dividir)
 

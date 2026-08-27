@@ -2,7 +2,7 @@
 
 | Campo | Valor |
 |---|---|
-| **Estado** | approved |
+| **Estado** | implemented |
 | **Tipo** | infra |
 | **Fecha** | 2026-08-27 |
 | **Supersede** | — (el ítem roadmap «010 session-log» monolítico se **desglosa** en 010 schema + 011 api + 012 ui) |
@@ -150,13 +150,13 @@ GRANT SELECT, INSERT, UPDATE ON public.workout_session_exercises TO authenticate
 
 ## Criterios de aceptación
 
-- [ ] Migración crea `workout_sessions` y `workout_session_exercises` con columnas, FKs, CHECKs (`day_index` 1..7, `sets_completed` ≥ 1), triggers `updated_at`.
-- [ ] RLS + GRANT: SELECT/INSERT/UPDATE own-row (exercises vía sesión); sin DELETE.
-- [ ] Zod (+ tipos) en `lib/validation/schemas/` alineado con esta spec; tests Jest (sesión, ejercicios, `weight_kg` null, `reps` no vacío, strip).
-- [ ] Documentar apply migration (README o notas, patrón 003/006).
-- [ ] No se implementaron rutas HTTP ni UI de log ni weekly-iteration.
-- [ ] No se tocaron archivos fuera de migración, Zod, tests y docs de esta spec (y roadmap).
-- [ ] Roadmap README: 010 = esta spec; 011 session-log-api; 012 session-log-ui; 013 weekly-iteration.
+- [x] Migración crea `workout_sessions` y `workout_session_exercises` con columnas, FKs, CHECKs (`day_index` 1..7, `sets_completed` ≥ 1), triggers `updated_at`.
+- [x] RLS + GRANT: SELECT/INSERT/UPDATE own-row (exercises vía sesión); sin DELETE.
+- [x] Zod (+ tipos) en `lib/validation/schemas/` alineado con esta spec; tests Jest (sesión, ejercicios, `weight_kg` null, `reps` no vacío, strip).
+- [x] Documentar apply migration (README o notas, patrón 003/006).
+- [x] No se implementaron rutas HTTP ni UI de log ni weekly-iteration.
+- [x] No se tocaron archivos fuera de migración, Zod, tests y docs de esta spec (y roadmap).
+- [x] Roadmap README: 010 = esta spec; 011 session-log-api; 012 session-log-ui; 013 weekly-iteration.
 - [ ] _(Opcional)_ PR enlaza a esta spec.
 
 ## Plan de implementación
@@ -169,5 +169,11 @@ GRANT SELECT, INSERT, UPDATE ON public.workout_session_exercises TO authenticate
 
 ## Notas de implementación
 
-- **Aprobada** por el usuario 2026-08-27 (D1–D3). Pendiente `implement-from-spec` cuando lo pida; **no** implementar hasta entonces.
-- _Rellenar archivos/desviaciones al pasar a `implemented`._
+- **Aprobada** por el usuario 2026-08-27 (D1–D3). Implementada con `implement-from-spec` el 2026-08-27.
+- **Migración:** `supabase/migrations/20260827120000_create_workout_sessions.sql` — tablas `workout_sessions` + `workout_session_exercises`; FK `plan_id` → `workout_plans` `ON DELETE RESTRICT`; CHECKs (`day_index` 1..7, `exercise_order` ≥ 0, `sets_completed` ≥ 1, `weight_kg` null o ≥ 0, nombre/reps no vacíos); índices `(user_id, performed_on DESC)` y `(plan_id)`; RLS SELECT/INSERT/UPDATE (exercises vía `EXISTS` a sesión propia; sin `user_id` denormalizado); sin DELETE; GRANT; triggers `updated_at` en ambas tablas.
+- **Zod:** `lib/validation/schemas/workout-session.ts` — `workoutSessionSchema`, `workoutSessionExerciseSchema`, `workoutSessionCreateSchema` (sesión + `exercises` min 1 para 011); tipos exportados; reexport en `lib/validation/schemas/index.ts`.
+- **Tests:** `lib/validation/schemas/workout-session.test.ts` (21 casos: day_index, plan_id uuid, `performed_on` date, `weight_kg` null/omitido/negativo, reps, strip, create con exercises).
+- **Docs:** README sección «Log de sesión (SPEC-010)» con apply migration + verificación RLS manual.
+- **Roadmap:** `docs/specs/README.md` — 010 implemented; 011/012/013 ya desglosados.
+- **Desviaciones:** ninguna de producto. CHECKs SQL extra de `exercise_name`/`reps` no vacíos y `exercise_order`/`weight_kg` (alineados con Zod; la spec solo exigía explícitamente `day_index` y `sets_completed`).
+- **Pendiente manual:** aplicar la migración en el proyecto Supabase del desarrollador (SQL Editor) y comprobar Table Editor.
