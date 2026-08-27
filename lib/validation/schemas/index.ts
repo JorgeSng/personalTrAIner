@@ -18,8 +18,10 @@ export {
 export {
   workoutSessionCreateSchema,
   workoutSessionExerciseSchema,
+  workoutSessionListQuerySchema,
   workoutSessionSchema,
   type WorkoutSession,
   type WorkoutSessionCreate,
   type WorkoutSessionExercise,
+  type WorkoutSessionListQuery,
 } from "./workout-session";

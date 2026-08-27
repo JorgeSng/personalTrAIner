@@ -25,8 +25,19 @@ export const workoutSessionCreateSchema = workoutSessionSchema
   })
   .strip();
 
+/** Query params for GET /api/sessions (SPEC-011). */
+export const workoutSessionListQuerySchema = z
+  .object({
+    plan_id: z.string().uuid().optional(),
+    limit: z.coerce.number().int().min(1).max(50).default(20),
+  })
+  .strip();
+
 export type WorkoutSession = z.infer<typeof workoutSessionSchema>;
 export type WorkoutSessionExercise = z.infer<
   typeof workoutSessionExerciseSchema
 >;
 export type WorkoutSessionCreate = z.infer<typeof workoutSessionCreateSchema>;
+export type WorkoutSessionListQuery = z.infer<
+  typeof workoutSessionListQuerySchema
+>;

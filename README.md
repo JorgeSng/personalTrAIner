@@ -38,6 +38,9 @@ Abre [http://localhost:3000](http://localhost:3000). Sin sesión te redirige a `
 | GET | `/api/health` | Estado del servicio e integraciones |
 | GET | `/api/plan` | Plan activo del usuario (`data: null` si aún no hay) |
 | POST | `/api/plan/generate` | Genera plan con Gemini, valida Zod y persiste como `active` |
+| GET | `/api/sessions` | Lista logs de sesión propios (`plan_id`, `limit` opcionales) |
+| POST | `/api/sessions` | Crea sesión + ejercicios (peso × reps) |
+| GET | `/api/sessions/[id]` | Detalle de sesión con ejercicios |
 
 ## Autenticación (local)
 
