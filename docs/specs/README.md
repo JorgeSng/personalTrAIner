@@ -25,17 +25,20 @@ Ejemplos: `001-project-scaffold.md`, `002-auth.md`, `003-profile-schema.md`
 | 007 | [workout-plan-api](./007-workout-plan-api.md) | Generar plan con Gemini, validar Zod, persistir; GET plan activo | api | 006 | **implemented** |
 | 008 | [workout-plan-ui](./008-workout-plan-ui.md) | Pantalla `/plan`, generar/regenerar, enlaces LoadMuscle | feature | 007 | **implemented** |
 | 009 | [workout-plan-quality](./009-workout-plan-quality.md) | Catálogo LoadMuscle, descansos, contenido del plan en español | feature | 008 | **implemented** |
-| 010 | session-log | Registrar peso × reps de una sesión | feature | 009 | pendiente |
-| 011 | weekly-iteration | Ajustar el plan según logs y perfil | feature | 010 | pendiente |
+| 010 | [session-log-schema](./010-session-log-schema.md) | Tablas de sesión + ejercicios logueados, RLS, Zod (sin UI ni API) | infra | 009 | **implemented** |
+| 011 | session-log-api | Route Handlers para crear/leer logs de sesión | api | 010 | pendiente |
+| 012 | session-log-ui | Registrar sesión desde `/plan` (peso × reps por ejercicio) | feature | 011 | pendiente |
+| 013 | weekly-iteration | Ajustar el plan según logs y perfil | feature | 012 | pendiente |
 
 **Histórico:**
 
 - El bloque «onboarding + perfil» era una sola spec `003-onboarding-profile`. Desglosado en **003 + 004 + 005** (2026-08-17): datos → API → UI.
 - El bloque «workout-plan-engine» era una sola fila 006. Desglosado en **006 + 007 + 008** (2026-08-21): schema → API/Gemini → UI. `session-log` y `weekly-iteration` eran **009** y **010**; desde 2026-08-26 pasan a **010** y **011** al insertar **009 workout-plan-quality** (LoadMuscle curado + descansos + ES).
+- El bloque «session-log» era una sola fila 010. Desglosado en **010 + 011 + 012** (2026-08-27): schema → API → UI. `weekly-iteration` pasa a **013**.
 
 Fuera de este índice hasta que el MVP de plan (006–009) funcione en local: deploy a Vercel (ver ADR-001).
 
-**Siguiente trabajo:** redactar/aprobar e implementar spec-010 (session-log) cuando el usuario lo pida.
+**Siguiente trabajo:** redactar/aprobar e implementar spec-011 (`session-log-api`) cuando el usuario lo pida.
 
 ## Tamaño de una spec (cuándo dividir)
 
@@ -58,7 +61,7 @@ Preferir **varias specs pequeñas** en cadena antes que una spec grande con much
 | API | 004 | `GET`/`POST`/`PATCH` perfil con auth y validación |
 | UI | 005 | Usuario completa onboarding y persiste vía API |
 
-**Cadena acordada (plan):**
+**Cadena acordada (plan + logs):**
 
 | Capa | NNN | Entregable verificable |
 |---|---|---|
@@ -66,13 +69,17 @@ Preferir **varias specs pequeñas** en cadena antes que una spec grande con much
 | API | 007 | Generar (Gemini) + persistir; `GET` plan activo |
 | UI | 008 | Usuario ve/genera plan en `/plan` con enlaces LoadMuscle |
 | Calidad | 009 | Catálogo LoadMuscle + descansos + contenido en español |
+| Datos | 010 | Existe log de sesión (por ejercicio) con RLS y Zod |
+| API | 011 | Crear/leer logs de sesión con auth |
+| UI | 012 | Usuario registra peso × reps desde `/plan` |
+| Iteración | 013 | Ajuste del plan según logs y perfil |
 
 **Cómo dividir:**
 
 1. Actualizar esta tabla en `README.md` (nuevas filas NNN, dependencias, tipos).
 2. Anotar spec antigua → `superseded` + enlace a las nuevas (si existía draft).
 3. Redactar **cada** spec con `write-spec`; no implementar hasta `approved` en la activa.
-4. Respetar **orden de dependencias**: 003 → 004 → 005; 006 → 007 → 008 → 009.
+4. Respetar **orden de dependencias**: 003 → 004 → 005; 006 → 007 → 008 → 009; 010 → 011 → 012 → 013.
 
 **No dividir** en exceso: typos, un solo componente, o un fix acotado no necesitan spec nueva.
 
@@ -125,7 +132,8 @@ Ver [`_template.md`](./_template.md) — formato híbrido (producto + contrato A
 ```
 002 auth → 003 schema → 004 profile-api → 005 onboarding
   → 006 plan-schema → 007 plan-api → 008 plan-ui → 009 plan-quality
-  → 010 logs → 011 iteración
+  → 010 session-schema → 011 session-api → 012 session-ui
+  → 013 weekly-iteration
 ```
 
 - **003:** columnas, migración, RLS, Zod — sin HTTP ni pantallas.
@@ -135,4 +143,7 @@ Ver [`_template.md`](./_template.md) — formato híbrido (producto + contrato A
 - **007:** Gemini → Zod → persistir; `GET` plan activo; lee perfil (004/capa server).
 - **008:** UX `/plan`; consume 007; enlaces LoadMuscle (URLs en JSON).
 - **009:** calidad del plan — catálogo LoadMuscle, descansos, contenido ES.
-- **010+:** logs e iteración; no redefinir campos de perfil en AGENTS.md.
+- **010:** tablas de log de sesión (por ejercicio) + Zod — sin HTTP ni pantallas.
+- **011:** API de logs; auth + Zod 010.
+- **012:** UX registrar sesión desde `/plan`.
+- **013:** iteración semanal según logs y perfil; no redefinir campos de perfil en AGENTS.md.

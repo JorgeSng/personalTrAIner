@@ -127,6 +127,50 @@ VALUES (
 
 3. Un segundo `INSERT` con `status = 'active'` para el mismo usuario debe fallar por el índice único parcial. Marca el anterior como `superseded` antes de insertar otro activo (flujo de SPEC-007).
 
+## Log de sesión (SPEC-010)
+
+Tablas `public.workout_sessions` y `public.workout_session_exercises` (una fila por ejercicio hecho en la sesión). RLS por `auth.uid()` en la sesión; ejercicios vía `EXISTS` a sesión propia. Validación en app con `workoutSessionSchema` / `workoutSessionExerciseSchema` / `workoutSessionCreateSchema` (Zod). Sin filas = aún no se ha registrado sesión (API/UI en SPEC-011/012).
+
+### Aplicar migración
+
+1. Abre [Supabase Dashboard](https://supabase.com/dashboard) → tu proyecto → **SQL Editor**.
+2. Copia y ejecuta el contenido de [`supabase/migrations/20260827120000_create_workout_sessions.sql`](./supabase/migrations/20260827120000_create_workout_sessions.sql) (después de haber aplicado la migración de `workout_plans`).
+3. Comprueba en **Table Editor** que existen `workout_sessions` y `workout_session_exercises` con las columnas del MVP.
+
+Si el proyecto tiene desactivado «Automatically expose new tables», el `GRANT` de la migración es necesario para que la API (011) vea las tablas.
+
+### Verificar RLS (manual)
+
+Con un usuario autenticado y al menos un plan propio (`workout_plans.id`):
+
+1. Comprueba que no hay sesiones (estado válido):
+
+```sql
+SELECT * FROM public.workout_sessions WHERE user_id = auth.uid();
+```
+
+2. Inserta una sesión + un ejercicio (sustituye el UUID del plan):
+
+```sql
+INSERT INTO public.workout_sessions (user_id, plan_id, day_index, performed_on)
+VALUES (auth.uid(), '<plan_id>', 1, CURRENT_DATE)
+RETURNING id;
+
+INSERT INTO public.workout_session_exercises (
+  session_id, exercise_name, exercise_order, sets_completed, weight_kg, reps
+)
+VALUES (
+  '<session_id>',
+  'Press banca',
+  0,
+  3,
+  60,
+  '10,10,8'
+);
+```
+
+3. Comprueba que solo ves tus filas. `weight_kg` puede ser `NULL` (peso corporal). No hay política `DELETE` en MVP.
+
 ## Generación de plan (SPEC-007)
 
 Con sesión + perfil + `GEMINI_API_KEY`:
