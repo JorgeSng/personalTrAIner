@@ -132,6 +132,9 @@ describe("Plan page", () => {
     expect(screen.getByText("Sentadilla")).toBeInTheDocument();
     expect(screen.getByText("3 × 8")).toBeInTheDocument();
     expect(
+      screen.getByRole("button", { name: /registrar sesión/i }),
+    ).toBeInTheDocument();
+    expect(
       screen.getByRole("button", { name: /regenerar plan/i }),
     ).toBeInTheDocument();
   });

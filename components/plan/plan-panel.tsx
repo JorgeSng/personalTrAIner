@@ -16,7 +16,7 @@ export function PlanPanel({ plan }: Props) {
       <h2 className="text-xl font-semibold tracking-tight text-zinc-900">
         {plan.week_label}
       </h2>
-      <PlanDays days={plan.content.days} />
+      <PlanDays planId={plan.id} days={plan.content.days} />
     </div>
   );
 }
