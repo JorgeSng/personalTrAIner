@@ -60,6 +60,7 @@ describe("PlanPanel", () => {
     render(<PlanPanel plan={null} />);
 
     expect(screen.getByText(PLAN_EMPTY_COPY)).toBeInTheDocument();
+    expect(screen.queryByRole("button", { name: /registrar sesión/i })).not.toBeInTheDocument();
     expect(screen.queryByRole("heading", { level: 2 })).not.toBeInTheDocument();
   });
 
@@ -87,6 +88,9 @@ describe("PlanPanel", () => {
     expect(screen.getAllByText(/técnica pendiente/i)).toHaveLength(2);
     expect(screen.getByText("Dominadas")).toBeInTheDocument();
     expect(screen.getByText("3 × 6-8")).toBeInTheDocument();
+    expect(screen.getAllByRole("button", { name: /registrar sesión/i })).toHaveLength(
+      2,
+    );
   });
 
   it("does not crash on legacy plans without rest fields", () => {

@@ -27,7 +27,7 @@ Ejemplos: `001-project-scaffold.md`, `002-auth.md`, `003-profile-schema.md`
 | 009 | [workout-plan-quality](./009-workout-plan-quality.md) | Catálogo LoadMuscle, descansos, contenido del plan en español | feature | 008 | **implemented** |
 | 010 | [session-log-schema](./010-session-log-schema.md) | Tablas de sesión + ejercicios logueados, RLS, Zod (sin UI ni API) | infra | 009 | **implemented** |
 | 011 | [session-log-api](./011-session-log-api.md) | Route Handlers para crear/leer logs de sesión | api | 010 | **implemented** |
-| 012 | session-log-ui | Registrar sesión desde `/plan` (peso × reps por ejercicio) | feature | 011 | pendiente |
+| 012 | [session-log-ui](./012-session-log-ui.md) | Registrar sesión desde `/plan` (peso × reps por ejercicio) | feature | 011 | **implemented** |
 | 013 | weekly-iteration | Ajustar el plan según logs y perfil | feature | 012 | pendiente |
 
 **Histórico:**
@@ -38,7 +38,7 @@ Ejemplos: `001-project-scaffold.md`, `002-auth.md`, `003-profile-schema.md`
 
 Fuera de este índice hasta que el MVP de plan (006–009) funcione en local: deploy a Vercel (ver ADR-001).
 
-**Siguiente trabajo:** redactar/aprobar e implementar spec-012 (`session-log-ui`) cuando el usuario lo pida (`write-spec` → `implement-from-spec`).
+**Siguiente trabajo:** redactar e implementar spec-013 (`weekly-iteration`) cuando corresponda.
 
 ## Tamaño de una spec (cuándo dividir)
 

@@ -1,8 +1,10 @@
 import { ExerciseTechnique } from "@/components/plan/exercise-technique";
+import { LogSessionForm } from "@/components/plan/log-session-form";
 import { formatRestSeconds } from "@/lib/plans/format-rest-seconds";
 import type { WorkoutPlanDay, WorkoutPlanExercise } from "@/lib/validation/schemas/workout-plan";
 
 type Props = {
+  planId: string;
   days: WorkoutPlanDay[];
 };
 
@@ -16,7 +18,7 @@ function readRestSec(
     : undefined;
 }
 
-export function PlanDays({ days }: Props) {
+export function PlanDays({ planId, days }: Props) {
   return (
     <div className="flex flex-col gap-8">
       {days.map((day) => {
@@ -58,6 +60,13 @@ export function PlanDays({ days }: Props) {
                 );
               })}
             </ul>
+            <LogSessionForm
+              planId={planId}
+              dayIndex={day.day_index}
+              exercises={day.exercises.map((exercise) => ({
+                name: exercise.name,
+              }))}
+            />
           </section>
         );
       })}
