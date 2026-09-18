@@ -5,8 +5,8 @@
 | **Estado** | implemented |
 | **Tipo** | feature |
 | **Fecha** | 2026-08-28 |
-| **Supersede** | — (capa UI del desglose session-log 010 → 011 → 012) |
-| **Depende de** | [SPEC-011](./011-session-log-api.md) (**implemented**); [SPEC-008](./008-workout-plan-ui.md) (implemented — pantalla `/plan`); [SPEC-002](./002-auth.md) (implemented) |
+| **Supersede** | — |
+| **Depende de** | [SPEC-011](./011-session-log-api.md) (**implemented**); [SPEC-008](./008-workout-plan-ui.md) (implemented — pantalla `/plan`); [SPEC-002](./002-auth.md) (implemented). Capa UI del desglose session-log 010 → 011 → 012 |
 
 ## Objetivo
 
@@ -50,10 +50,6 @@ _N/A como contrato HTTP nuevo._ El formulario mapea al body de `POST /api/sessio
 
 | Caso | Resultado UI |
 |---|---|
-| Sin plan | Sin UI de log (comportamiento 008) |
-| Abrir formulario día | Campos pre-cargados por ejercicio |
-| Submit OK (`201`) | Mensaje éxito; formulario cerrado o reset |
-| Validación local | Errores inline; no POST |
 | `400 VALIDATION_ERROR` | Mensaje API o campo |
 | `404 PLAN_NOT_FOUND` | Mensaje (plan regenerado/borrado) |
 | `503` / red / `500` | Mensaje claro; no crash |
@@ -68,7 +64,6 @@ _N/A como contrato HTTP nuevo._ El formulario mapea al body de `POST /api/sessio
 - `weight_kg` vacío → enviar `null` (peso corporal).
 - `reps` con espacios solo → tratar como vacío / error local.
 - Plan regenerado tras abrir formulario → POST puede devolver `404 PLAN_NOT_FOUND`; mostrar mensaje y sugerir recargar.
-- Doble submit → CTA deshabilitado en vuelo.
 - Fecha futura → **bloquear en UI** (**O3** A).
 
 ## UX / flujos
@@ -111,27 +106,22 @@ Sin tablas nuevas. Consume API 011 y schema 010. `plan_id` del plan activo (`Pla
 
 ## Decisiones
 
-### Cerradas (specs anteriores)
+### Cerradas
 
 | ID | Decisión | Origen |
 |---|---|---|
 | **C1** | Entrada de log **solo desde `/plan`** (sin rutas `/session` ni `/log`) | SPEC-010 D3 |
 | **C2** | Granularidad por ejercicio; snapshot `exercise_name` | SPEC-010 D1–D2 |
 | **C3** | Persistencia vía API; no Supabase directo desde UI | Patrón 005/008 |
-
-### Cerradas (2026-08-28)
-
-| ID | Decisión |
-|---|---|
-| **D1** | Botón **«Registrar sesión» por cada día** del plan |
-| **D2** | **Panel expandible inline** bajo el día (no modal) |
-| **D3** | Pre-cargar ejercicios del día; **submit solo completados** (≥ 1) |
-| **D4** | `performed_on`: **default hoy** (fecha local), **editable** |
-| **D5** | **Solo crear** en MVP; sin listado/histórico en `/plan` |
-| **D6** | Tras `201`: **mensaje de éxito + cerrar panel** (sin redirect) |
-| **D7** | Client island **`LogSessionForm`** en `components/plan/` |
-| **D8** | Datos del plan vía **props desde RSC** (`plan.id`, día, ejercicios) |
-| **O3** | **Bloquear fecha futura** en validación local UI |
+| **D1** | Botón **«Registrar sesión» por cada día** del plan | 012 (2026-08-28) |
+| **D2** | **Panel expandible inline** bajo el día (no modal) | 012 (2026-08-28) |
+| **D3** | Pre-cargar ejercicios del día; **submit solo completados** (≥ 1) | 012 (2026-08-28) |
+| **D4** | `performed_on`: **default hoy** (fecha local), **editable** | 012 (2026-08-28) |
+| **D5** | **Solo crear** en MVP; sin listado/histórico en `/plan` | 012 (2026-08-28) |
+| **D6** | Tras `201`: **mensaje de éxito + cerrar panel** (sin redirect) | 012 (2026-08-28) |
+| **D7** | Client island **`LogSessionForm`** en `components/plan/` | 012 (2026-08-28) |
+| **D8** | Datos del plan vía **props desde RSC** (`plan.id`, día, ejercicios) | 012 (2026-08-28) |
+| **O3** | **Bloquear fecha futura** en validación local UI | 012 (2026-08-28) |
 
 ## Fuera de alcance
 
@@ -159,11 +149,11 @@ Sin tablas nuevas. Consume API 011 y schema 010. `plan_id` del plan activo (`Pla
 ## Plan de implementación
 
 1. ~~Confirmar decisiones D1–D8 y O3 → `approved`.~~ (hecho 2026-08-28)
-2. Copy ES (`lib/sessions/messages.ts` o similar) para errores/éxito.
-3. Componente Client `LogSessionForm` (+ tests RTL).
-4. Integrar en `PlanDays` / `PlanPanel` con props desde `app/plan/page.tsx` (**D8**).
-5. Tests de página/componente.
-6. Spec → `implemented` + notas; seguir con **013** cuando corresponda.
+2. ~~Copy ES (`lib/sessions/messages.ts` o similar) para errores/éxito.~~
+3. ~~Componente Client `LogSessionForm` (+ tests RTL).~~
+4. ~~Integrar en `PlanDays` / `PlanPanel` con props desde `app/plan/page.tsx` (**D8**).~~
+5. ~~Tests de página/componente.~~
+6. ~~Spec → `implemented` + notas; seguir con **013** cuando corresponda.~~
 
 ## Notas de implementación
 
