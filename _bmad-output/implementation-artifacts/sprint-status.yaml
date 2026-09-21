@@ -1,0 +1,50 @@
+# generated: 2026-09-21 17:39
+# last_updated: 2026-09-21 17:39
+# project: personalTrAIner
+# project_key: NOKEY
+# tracking_system: file-system
+# story_location: _bmad-output/implementation-artifacts
+
+# DEFINICIONES DE ESTADO:
+# ======================
+# Estado de Épica:
+#   - backlog: Épica aún no iniciada
+#   - in-progress: Épica en trabajo activo
+#   - done: Todas las stories de la épica completadas
+#
+# Transiciones de estado de Épica:
+#   - backlog → in-progress: Automático cuando se crea la primera story (vía create-story)
+#   - in-progress → done: Manual cuando todas las stories alcanzan el estado 'done'
+#
+# Estado de Story:
+#   - backlog: La story solo existe en el fichero de epics
+#   - ready-for-dev: Fichero de story creado en la carpeta de stories
+#   - in-progress: El desarrollador está trabajando activamente en la implementación
+#   - review: Lista para code review (vía workflow code-review del Dev)
+#   - done: Story completada
+#
+# Estado de Retrospectiva:
+#   - optional: Se puede realizar pero no es obligatoria
+#   - done: La retrospectiva se ha completado
+#
+# NOTAS DE WORKFLOW:
+# ==================
+# - La épica pasa a 'in-progress' automáticamente cuando se crea su primera story
+# - Las stories pueden trabajarse en paralelo si la capacidad del equipo lo permite
+# - El desarrollador normalmente crea la siguiente story cuando la anterior está 'done' para incorporar aprendizajes
+# - El Dev mueve la story a 'review' y después ejecuta code-review (contexto fresco, se recomienda otro LLM)
+
+generated: 2026-09-21 17:39
+last_updated: 2026-09-21 17:39
+project: personalTrAIner
+project_key: NOKEY
+tracking_system: file-system
+story_location: _bmad-output/implementation-artifacts
+
+development_status:
+  epic-1: backlog
+  1-1-contexto-de-logs-y-prompt-de-iteracion: backlog
+  1-2-endpoint-de-iteracion-con-protecciones: backlog
+  1-3-ui-accion-de-iterar-con-confirmacion-y-feedback: backlog
+  1-4-resumen-de-cambios-entre-semanas: backlog
+  epic-1-retrospective: optional
