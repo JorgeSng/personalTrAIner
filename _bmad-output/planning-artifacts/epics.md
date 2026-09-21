@@ -71,24 +71,26 @@ No existe documento de UX (`*ux*.md`). Los requisitos de UX relevantes están ca
 
 ### FR Coverage Map
 
-| FR | Épica | Descripción |
-|---|---|---|
-| FR1 | Epic 1 | Acción explícita en `/plan` para generar la semana siguiente |
-| FR2 | Epic 1 | Contexto de iteración: perfil + logs desde el plan activo |
-| FR3 | Epic 1 | Generación IA reutilizando el pipeline existente |
-| FR4 | Epic 1 | Validación Zod estricta idéntica a la generación actual |
-| FR5 | Epic 1 | Supersede del plan anterior + activación del nuevo (≤1 activo) |
-| FR6 | Epic 1 | Bloqueo de iteración sin logs nuevos, con copy claro |
-| FR7 | Epic 1 | Iteración con logs parciales → ajuste más conservador |
-| FR8 | Epic 1 | Confirmación del usuario antes de regenerar |
-| FR9 | Epic 1 | Resumen en UI de qué cambió respecto a la semana anterior |
-| FR10 | Epic 1 | Errores en español mapeados por `code` |
-| FR11 | Epic 1 | Reintento tras fallo con plan activo intacto |
-| FR12 | Epic 1 | Historial de planes `superseded` (reutilizado) |
+| FR | Épica | Story | Descripción |
+|---|---|---|---|
+| FR1 | Epic 1 | 1.3 (acción UI) + 1.2 (endpoint) | Acción explícita en `/plan` para generar la semana siguiente |
+| FR2 | Epic 1 | 1.1 | Contexto de iteración: perfil + logs desde el plan activo |
+| FR3 | Epic 1 | 1.2 | Generación IA reutilizando el pipeline existente |
+| FR4 | Epic 1 | 1.2 | Validación Zod estricta idéntica a la generación actual |
+| FR5 | Epic 1 | 1.2 | Supersede del plan anterior + activación del nuevo (≤1 activo) |
+| FR6 | Epic 1 | 1.1 (detección) + 1.2 (bloqueo) + 1.3 (copy) | Bloqueo de iteración sin logs nuevos, con copy claro |
+| FR7 | Epic 1 | 1.1 | Iteración con logs parciales → ajuste más conservador |
+| FR8 | Epic 1 | 1.3 | Confirmación del usuario antes de regenerar |
+| FR9 | Epic 1 | 1.4 | Resumen en UI de qué cambió respecto a la semana anterior |
+| FR10 | Epic 1 | 1.2 (códigos) + 1.3 (mostrar) | Errores en español mapeados por `code` |
+| FR11 | Epic 1 | 1.3 (reintento) + 1.2 (plan intacto) | Reintento tras fallo con plan activo intacto |
+| FR12 | Epic 1 | 1.2 | Historial de planes `superseded` (reutilizado) |
 
 ## Epic List
 
-### Epic 1: Iteración semanal — cerrar el ciclo *entrenar → registrar → analizar → ajustar*
+- **Epic 1: Iteración semanal — cerrar el ciclo *entrenar → registrar → analizar → ajustar*** — FRs: FR1–FR12 (detalle y stories abajo)
+
+## Epic 1: Iteración semanal — cerrar el ciclo *entrenar → registrar → analizar → ajustar*
 
 Tras entrenar y registrar sus sesiones, el usuario pulsa una acción explícita en `/plan`, confirma, y obtiene el plan de la semana siguiente ajustado a su progreso real — sin decisiones técnicas, sin planes duplicados y sin perder el plan activo si la IA falla.
 
@@ -99,10 +101,6 @@ Tras entrenar y registrar sus sesiones, el usuario pulsa una acción explícita 
 - Superficie: 1 route handler nuevo, 1–2 componentes en `components/plan/`, extensión en `lib/plans`/`lib/ai`. Sin tocar `proxy.ts`, gates ni migraciones.
 - Decisiones pendientes (endpoint, código de error FR6, mecanismo del resumen FR9, `week_label`) se resuelven en la spec-013.
 - Tests del pipeline de iteración antes del código de producto; cobertura ≥75%; sin dependencias nuevas.
-
-## Epic 1: Iteración semanal — cerrar el ciclo *entrenar → registrar → analizar → ajustar*
-
-Tras entrenar y registrar sus sesiones, el usuario pulsa una acción explícita en `/plan`, confirma, y obtiene el plan de la semana siguiente ajustado a su progreso real — sin decisiones técnicas, sin planes duplicados y sin perder el plan activo si la IA falla.
 
 ### Story 1.1: Contexto de logs y prompt de iteración
 
