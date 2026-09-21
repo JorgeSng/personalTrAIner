@@ -93,6 +93,8 @@ Idea → Spec (draft) → Revisión usuario → Spec (approved) → Implementaci
 
 Si código y spec divergen, **la spec manda** hasta que se actualice explícitamente.
 
+**Arquitectura oficial del flujo BMAD:** [`docs/architecture.md`](./docs/architecture.md) (+ [ADR-001](./docs/adr/001-tech-stack.md)). Los workflows BMAD la descubren vía el symlink `_bmad-output/planning-artifacts/architecture.md`. No sobrescribir el symlink ni regenerar el documento con el workflow de arquitectura (auditado en modo auditoría, 2026-09-21); para cambios, editar `docs/architecture.md` o registrar un ADR.
+
 ## Dominio del producto (no confundir con perfil de usuario)
 
 Reglas de **producto** que aplican a cualquier uso de la app:

@@ -115,3 +115,16 @@ Pendiente (ADR-001): Vercel cuando el MVP local esté estable. Requisitos ya doc
 - **Gemini sin fallback**: sin key → 503 explícito; plan inválido tras reintento → 502. Groq queda como alternativa documentada en ADR-001.
 - **Migraciones manuales** (copy-paste en SQL Editor) — adecuado para 1 dev; riesgo de deriva si se olvida aplicar una.
 - **Sin service role**: toda la seguridad recae en RLS + verificación de propiedad en `lib/` (defensa en profundidad, p. ej. `plan_id` propio antes de insertar sesión).
+
+## Auditoría de arquitectura (2026-09-21)
+
+Auditoría vía workflow BMAD de arquitectura contra el PRD (`_bmad-output/planning-artifacts/prd.md`, alcance spec-013). Resultado: **READY** — sin cambios estructurales; la spec-013 requiere solo cambios aditivos.
+
+- Cobertura: 12 FRs + 9 NFRs soportados por la arquitectura actual (pipeline Gemini→Zod→catálogo→supersede+insert, RLS, índice parcial, convención de errores, patrones UI accesibles).
+- Estructura: 1 route handler nuevo, 1–2 componentes en `components/plan/`, extensión en `lib/plans`/`lib/ai`. Sin tocar `proxy.ts`, gates ni migraciones.
+- Decisiones pendientes (se resuelven en la spec-013, no bloquean la arquitectura):
+  1. Shape del endpoint de iteración (nuevo vs extender `POST /api/plan/generate`).
+  2. Código de error para «sin logs nuevos» (FR6), p. ej. `409 NO_NEW_SESSIONS`.
+  3. Mecanismo del resumen de cambios (FR9): calculado en servidor vs cliente.
+  4. Progresión de `week_label` («Semana N+1»).
+- Referencia: [`implementation-readiness-report-2026-09-21.md`](../_bmad-output/planning-artifacts/implementation-readiness-report-2026-09-21.md).
